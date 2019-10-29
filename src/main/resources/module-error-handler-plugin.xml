@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="Error Handler Plugin" prefix="error-handler-plugin"
+	category="SELECT"
+	doc:description="This module relies entirely in runtime provided components (no other Plugin dependencies)"
+	xmlns="http://www.mulesoft.org/schema/mule/module" xmlns:mule="http://www.mulesoft.org/schema/mule/core"
+	xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		   http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+           http://www.mulesoft.org/schema/mule/module http://www.mulesoft.org/schema/mule/module/current/mule-module.xsd
+           http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+           http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd 
+           http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+           http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+
+
+	<operation name="on-error" displayName="Process Error">
+
+
+		<parameters>
+
+			<parameter name="error" type="any" defaultValue="#[error]"
+				role="PRIMARY"></parameter>
+
+			<parameter name="apiName" type="any" use="OPTIONAL"
+				displayName="API Name" defaultValue="#[p('api.name')]" role="BEHAVIOUR"
+				order="1" />
+				
+			<parameter name="apiVersion" type="any" use="OPTIONAL"
+				displayName="API Version" defaultValue="#[p('api.version')]" role="BEHAVIOUR"
+				order="2" />
+
+			<parameter name="badRequestError" type="string" use="OPTIONAL"
+				displayName="400 Bad Request" defaultValue="There was an issue with your request message."
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="unauthorizedError" type="string" use="OPTIONAL"
+				displayName="401 Unauthorized" defaultValue="You have issues accessing the system"
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="notFoundError" type="string" use="OPTIONAL"
+				displayName="404 Not Found" defaultValue="The API has not been implemented"
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="notAcceptableError" type="string" use="OPTIONAL"
+				displayName="406 Not Acceptable" defaultValue="One of the request or parameters is unacceptable"
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="timeoutError" type="string" use="OPTIONAL"
+				displayName="408 Timeout" defaultValue="You request to the server has been timed-out"
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="unsupportedMediaTypeError" type="string"
+				displayName="415 Unsupported Media Type" use="OPTIONAL"
+				defaultValue="Media Type not supported" role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="tooManyRequestsError" type="string" use="OPTIONAL"
+				displayName="429 Too Many Requests" defaultValue="You have made too many requests to the server"
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="serverError" type="string" use="OPTIONAL"
+				displayName="500 Internal Server Error" defaultValue="There is a server issue"
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="methodNotAllowedError" type="string"
+				displayName="501 Method Not Allowed" use="OPTIONAL"
+				defaultValue="The method has not been implemented" role="BEHAVIOUR"
+				tab="Common Errors"></parameter>
+
+			<parameter name="connectivityError" type="string" use="OPTIONAL"
+				displayName="503 Bad Connectivity" defaultValue="You have issues accessing the system"
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="correlationId" type="string" use="OPTIONAL"
+				displayName="correlationId" defaultValue="#[correlationId]" role="BEHAVIOUR"
+				tab="CorrelationId"></parameter>
+
+			<parameter name="errorTypes" type="string" use="OPTIONAL"
+				displayName="Error Types (DB:BAD_SQL_SYNTAX, CUSTOM:XYZ_ABC)"
+				defaultValue="" role="BEHAVIOUR" tab="Custom Errors"></parameter>
+
+			<parameter name="errorCodes" type="string" use="OPTIONAL"
+				displayName="Error Codes (500, 499)" defaultValue="" role="BEHAVIOUR"
+				tab="Custom Errors"></parameter>
+
+			<parameter name="errorMessages" type="string" use="OPTIONAL"
+				displayName="Error Messages (DB Error, Custom Error)" defaultValue=""
+				role="BEHAVIOUR" tab="Custom Errors"></parameter>
+
+		</parameters>
+
+		<body>
+			<mule:set-variable
+				value="#[(vars.error.errorType.namespace default '') ++ ':' ++ (vars.error.errorType.identifier default '')]"
+				variableName="errorType"></mule:set-variable>
+			<mule:logger level="INFO" message="Error Type #[vars.errorType]"></mule:logger>
+
+			<mule:set-variable value="#[${file::dwl/customErrors.dwl}]"
+				doc:name="Custom Errors" variableName="customErrors" />
+			<mule:set-variable value="#[${file::dwl/defaultErrors.dwl}]"
+				doc:name="Default Errors" variableName="defaultErrors" />
+
+
+			<ee:transform doc:name="Transform Message">
+				<ee:message>
+				</ee:message>
+				<ee:variables>
+					<ee:set-variable variableName="errorDictionary"><![CDATA[%dw 2.0
+output application/json
+---
+vars.defaultErrors ++ vars.customErrors]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+
+			<ee:transform doc:name="Transform Message">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+var result = vars.errorDictionary filter ($.errorType == vars.errorType) map {
+    errorCode: $.errorCode,
+    errorMessage: $.errorMessage,
+    rfcName: $.rfcName default "Internal Server Error"
+}
+---
+result]]></ee:set-payload>
+				</ee:message>
+				<ee:variables>
+				</ee:variables>
+			</ee:transform>
+
+			<mule:choice doc:name="Choice">
+				<mule:when expression="#[sizeOf(payload) == 1]">
+					<ee:transform doc:name="Transform Message">
+						<ee:message>
+						</ee:message>
+						<ee:variables>
+							<ee:set-variable variableName="errorCode"><![CDATA[payload[0].errorCode]]></ee:set-variable>
+							<ee:set-variable variableName="errorMessage"><![CDATA[payload[0].errorMessage]]></ee:set-variable>
+							<ee:set-variable variableName="httpStatus"><![CDATA[payload[0].errorCode]]></ee:set-variable>
+							<ee:set-variable variableName="rfcName"><![CDATA[payload[0].rfcName]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</mule:when>
+				<mule:otherwise>
+					<ee:transform doc:name="Transform Message">
+						<ee:message>
+						</ee:message>
+						<ee:variables>
+							<ee:set-variable variableName="errorCode"><![CDATA[500]]></ee:set-variable>
+							<ee:set-variable variableName="errorMessage"><![CDATA[vars.serverError default 'There is a server issue']]></ee:set-variable>
+							<ee:set-variable variableName="httpStatus"><![CDATA[500]]></ee:set-variable>
+							<ee:set-variable variableName="rfcName"><![CDATA["Internal Server Error"]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</mule:otherwise>
+			</mule:choice>
+
+			<ee:transform doc:name="Error Response">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+				output application/json
+				---
+				 {
+                    "success": false,
+                    "apiName": vars.apiName,
+                    "version": vars.apiVersion,
+                    "correlationId": correlationId,
+                    "timestamp": now(),
+                    "errorDetails": {
+                        "code": vars.errorCode,
+                        "message": vars.errorMessage,
+                        additionalInfo : vars.rfcName   ++ ' : ' ++ vars.errorMessage
+                    }
+                }
+				
+				]]></ee:set-payload>
+					<ee:set-attributes><![CDATA[%dw 2.0
+				output application/java
+				---
+				{
+					httpStatus: vars.httpStatus default 500
+				}]]></ee:set-attributes>
+				</ee:message>
+
+			</ee:transform>
+		</body>
+		<output type="ErrorResponseType"></output>
+		<output-attributes type="OutputAttributesType"></output-attributes>
+	</operation>
+
+
+</module>
