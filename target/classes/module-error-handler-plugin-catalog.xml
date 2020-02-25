@@ -13,7 +13,7 @@
 		<schema format="application/json+schema" location="./custom-error-schema.json" />
 	</catalog>
 
-	<!-- <catalog name="java" format="application/java">
+	<catalog name="java" format="application/java">
 		<schema format="application/classloader" />
-	</catalog> -->
+	</catalog>
 </catalogs>

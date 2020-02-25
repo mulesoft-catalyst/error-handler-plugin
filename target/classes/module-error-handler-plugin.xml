@@ -173,7 +173,7 @@ result]]></ee:set-payload>
                     "status": vars.httpStatus,
 					"payload": {
 						payload
-					}
+					},
 					"errors": [
 						{
 							"errorTitle": vars.errorTitle,
@@ -182,7 +182,7 @@ result]]></ee:set-payload>
 							"version": vars.apiVersion,
 							"developerMessage": vars.errorDeveloperMessage,
 							"errorCode": vars.errorCode,
-							"moreInfo": vars.errorTitle   ++ ' : ' ++ vars.errorMessage
+							"moreInfo": vars.errorTitle   ++ ' : ' ++ vars.errorMessage,
 							"correlationId": correlationId,
 							"validationErrors": []
 						}

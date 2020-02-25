@@ -1,0 +1,21 @@
+{
+  "extensionModelLoaderDescriptor": {
+    "id": "xml-based",
+    "attributes": {
+      "validate-xml": false,
+      "resources-paths": [],
+      "resource-xml": "module-error-handler-plugin.xml"
+    }
+  },
+  "name": "NG Error Handler Plugin",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "minMuleVersion": "4.1.5"
+}
