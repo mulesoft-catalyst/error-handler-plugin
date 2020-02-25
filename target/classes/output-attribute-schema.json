@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "httpStatus": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

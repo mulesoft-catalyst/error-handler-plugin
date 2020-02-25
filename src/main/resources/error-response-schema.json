@@ -1,36 +1,82 @@
 {
-  "type": "object",
-  "properties": {
-    "success": {
-      "type": "boolean"
-    },
-    "apiName":{
-      "type": "string"
-    },
-    "version":{
-      "type": "string"
-    },
-    "correlationId": {
-      "type": "string"
-    },
-    "timestamp":{
-      "type": "string"
-    },
-    "errorDetails":{
-      "type": "object",
-      "properties": {
-        "errorCode": {
-          "type":"string"
-        },
-        "message":{
-          "type":"string"
-        },
-        "additionalInfo":{
-          "type":"object"
-        }
-        
-      }
-    }
-  },
-  "additionalProperties": false
-}
+   "type": "object",
+   "properties": {
+     "status": {
+       "type": "integer"
+     },
+     "payload": {
+       "type": "object"
+     },
+     "errors": {
+       "type": "array",
+       "additionalProperties": true,
+       "required": [
+         "errorTitle",
+         "errorMessage",
+         "apiName",
+         "version",
+         "developerMessage",
+         "errorCode",
+         "moreInfo",
+         "correlationId",
+         "validationErrors"
+       ],
+       "items":{
+         "properties": {
+           "errorTitle":{
+             "type": "string"
+           },
+           "errorMessage":{
+             "type": "string"
+           },
+           "apiName":{
+             "type": "string"
+           },
+           "version":{
+             "type": "string"
+           },
+           "developerMessage": 
+           {
+             "type": "string"
+           },
+           "errorCode": {
+             "description": "CDPHP Error Code. See key at top",
+             "enum": [
+               "00000",
+               "10000",
+               "20001",
+               "20000"
+             ],
+             "type": "string",
+             "pattern": "^([0-9]{5})$"
+           },
+           "moreInfo": {
+             "type": "string"
+           },
+           "correlationId": {
+             "description": "Passed from the inbound headers. Used to track transactions across systems.",
+             "type": "string"
+           },
+           "validationErrors":{
+             "description": "Error Object Displayed for Form Validation Errors when the HTTP Response is still 200",
+             "type": "array",
+             "additionalProperties": true,
+             "required": [
+               "element",
+               "invalidValue",
+               "errorMessage"
+             ],
+             "items": {
+               "type": "object",
+               "properties": {
+                 "element": "string",
+                 "invalidValue": "string",
+                 "errorMessage": "string"
+               }
+             }
+           }
+         }
+       }
+     }
+   }
+ }
