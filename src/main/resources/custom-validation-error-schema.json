@@ -1,0 +1,22 @@
+{
+   "type": "object",
+   "properties": {
+      "errorType": {
+         "type": "string" 
+      },
+      "validationErrors": {
+         "description": "Error Object Displayed for Form Validation Errors when the HTTP Response is still 200",
+         "type": "array",
+         "additionalProperties": true,
+         "required": false,
+         "items": {
+           "type": "object",
+           "properties": {
+             "element": {"type": "string"},
+             "invalidValue": {"type": "string"},
+             "errorMessage":{"type": "string"}
+           }
+         }
+       }
+   }
+}

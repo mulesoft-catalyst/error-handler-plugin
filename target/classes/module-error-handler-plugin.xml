@@ -66,6 +66,11 @@
 
 			<parameter name="methodNotAllowedError" type="string"
 				displayName="501 Method Not Allowed" use="OPTIONAL"
+				defaultValue="The method is not allowed" role="BEHAVIOUR"
+				tab="Common Errors"></parameter>
+
+			<parameter name="notImplemented" type="string"
+				displayName="501 Not Implemented" use="OPTIONAL"
 				defaultValue="The method has not been implemented" role="BEHAVIOUR"
 				tab="Common Errors"></parameter>
 
@@ -86,12 +91,48 @@
 				defaultValue="" role="BEHAVIOUR" tab="Custom Errors"></parameter>
 
 			<parameter name="errorCodes" type="string" use="OPTIONAL"
-				displayName="Error Codes (500, 499)" defaultValue="" role="BEHAVIOUR"
+				displayName="Error Codes (1234, 5678)" defaultValue="" role="BEHAVIOUR"
+				tab="Custom Errors"></parameter>
+				
+			<parameter name="errorHttpStatuses" type="string" use="OPTIONAL"
+				displayName="HTTP Statuses (500, 499)" defaultValue="" role="BEHAVIOUR"
 				tab="Custom Errors"></parameter>
 
 			<parameter name="errorMessages" type="string" use="OPTIONAL"
 				displayName="Error Messages (DB Error, Custom Error)" defaultValue=""
 				role="BEHAVIOUR" tab="Custom Errors"></parameter>
+
+			<parameter name="errorDeveloperMessages" type="string" use="OPTIONAL"
+				displayName="Error Developer Messages (DB Error, Custom Error)" defaultValue=""
+				role="BEHAVIOUR" tab="Custom Errors"></parameter>
+			
+			<parameter name="errorMoreInfos" type="string" use="OPTIONAL"
+				displayName="More Info Messages" defaultValue="No Additional Info"
+				role="BEHAVIOUR" tab="Custom Errors"></parameter>
+			
+
+			<parameter name="customErrorMap" type="any" use="OPTIONAL"
+				displayName="Error Map File Reference" defaultValue="" summary="Refer to file like: #[${file::dwl/customErrorsMap.dwl}]" example="#[${file::dwl/customErrorsMap.dwl}]" doc:description="Supply a JSON array of objects like: 
+				{
+					'errorType':'HTTP:FORBIDDEN',
+					'errorCode':401,
+					'httpStatus':401,
+					'errorMessage':vars.unauthorizedError default 'You have issues accessing the system',
+					'errorDeveloperMessage': vars.developerMessage default error.detailedDescription,
+					'errorTitle': 'Unauthorized'
+				}"
+				role="BEHAVIOUR" tab="Custom Error Map"></parameter>
+
+			<parameter name="customValidationErrorMap" type="any" use="OPTIONAL"
+				displayName="Validation Error Map File Reference" defaultValue="" summary="Refer to file like: #[${file::dwl/customValidationErrorsMap.dwl}]" example="#[${file::dwl/customValidationErrorsMap.dwl}]" doc:description="Supply a JSON array of objects like: 
+				{
+					'errorType': 'someType',
+					'validationErrors': [
+						{ 'element':'element1','invalidValue':'invalidValue1','errorMessage','errorMessage1'},
+						{ 'element':'element2','invalidValue':'invalidValue2','errorMessage','errorMessage2'},
+					]
+				}"
+				role="BEHAVIOUR" tab="Custom Validation Error Map"></parameter>
 
 		</parameters>
 
@@ -100,7 +141,6 @@
 				value="#[(vars.error.errorType.namespace default '') ++ ':' ++ (vars.error.errorType.identifier default '')]"
 				variableName="errorType"></mule:set-variable>
 			<mule:logger level="INFO" message="Error Type #[vars.errorType]"></mule:logger>
-
 			<mule:set-variable value="#[${file::dwl/customErrors.dwl}]"
 				doc:name="Custom Errors" variableName="customErrors" />
 			<mule:set-variable value="#[${file::dwl/defaultErrors.dwl}]"
@@ -111,41 +151,94 @@
 				<ee:message>
 				</ee:message>
 				<ee:variables>
-					<ee:set-variable variableName="errorDictionary"><![CDATA[%dw 2.0
-output application/json
----
-vars.defaultErrors ++ vars.customErrors]]></ee:set-variable>
+					<ee:set-variable variableName="errorDictionary">
+					<![CDATA[
+					%dw 2.0
+					output application/json
+					---
+					vars.defaultErrors ++ vars.customErrors ++ vars.customErrorMap
+					]]>
+					</ee:set-variable>
 				</ee:variables>
 			</ee:transform>
 
 			<ee:transform doc:name="Transform Message">
 				<ee:message>
-					<ee:set-payload><![CDATA[%dw 2.0
-output application/java
-var result = vars.errorDictionary filter ($.errorType == vars.errorType) map {
-    errorCode: $.errorCode,
-    errorMessage: $.errorMessage,
-	errorDeveloperMessage: $.errorDeveloperMessage
-    errorTitle: $.errorTitle default "Internal Server Error"
-}
----
-result]]></ee:set-payload>
 				</ee:message>
 				<ee:variables>
+					<ee:set-variable variableName="errorPluginPayload">
+					<![CDATA[
+						%dw 2.0
+						output application/json
+						var result = vars.errorDictionary filter ($.errorType == vars.errorType) map {
+							errorHttpStatus: $.errorHttpStatus default 500,
+							errorCode: $.errorCode,
+							errorMessage: $.errorMessage,
+							errorDeveloperMessage: $.errorDeveloperMessage,
+							errorMoreInfo: $.errorMoreInfo,
+							errorTitle: $.errorTitle default "Internal Server Error"
+						}
+						---
+						result
+					]]>
+					</ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-
 			<mule:choice doc:name="Choice">
-				<mule:when expression="#[sizeOf(payload) == 1]">
+				<mule:when expression="#[sizeOf(vars.customValidationErrorMap) == 1]">
 					<ee:transform doc:name="Transform Message">
 						<ee:message>
 						</ee:message>
 						<ee:variables>
-							<ee:set-variable variableName="errorCode"><![CDATA[payload[0].errorCode]]></ee:set-variable>
-							<ee:set-variable variableName="errorMessage"><![CDATA[payload[0].errorMessage]]></ee:set-variable>
-							<ee:set-variable variableName="errorDeveloperMessage"><![CDATA[error]]></ee:set-variable>
-							<ee:set-variable variableName="httpStatus"><![CDATA[payload[0].errorCode]]></ee:set-variable>
-							<ee:set-variable variableName="errorTitle"><![CDATA[payload[0].errorTitle]]></ee:set-variable>
+							<ee:set-variable variableName="errorValidationPayload">
+							<![CDATA[
+								%dw 2.0
+								output application/json
+								var result = vars.customValidationErrorMap filter ($.errorType == vars.errorType) map {
+									validationErrors: $.validationErrors default null
+								}
+								---
+								result
+							]]>
+							</ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+			</mule:when>
+			<mule:otherwise>
+				<ee:transform doc:name="Transform Message">
+						<ee:message>
+						</ee:message>
+					</ee:transform>
+			</mule:otherwise>
+			</mule:choice>
+
+			<mule:choice doc:name="Choice">
+				<mule:when expression="#[(sizeOf(vars.errorPluginPayload) == 1) and (sizeOf(vars.errorValidationPayload) == 1)]">
+					<ee:transform doc:name="Transform Message">
+						<ee:message>
+						</ee:message>
+						<ee:variables>
+							<ee:set-variable variableName="errorCode"><![CDATA[vars.errorPluginPayload[0].errorCode]]></ee:set-variable>
+							<ee:set-variable variableName="errorMessage"><![CDATA[vars.errorPluginPayload[0].errorMessage]]></ee:set-variable>
+							<ee:set-variable variableName="errorDeveloperMessage"><![CDATA[vars.errorPluginPayload[0].errorDeveloperMessage]]></ee:set-variable>
+							<ee:set-variable variableName="errorMoreInfo"><![CDATA[vars.errorPluginPayload[0].errorMoreInfo]]></ee:set-variable>
+							<ee:set-variable variableName="httpStatus"><![CDATA[vars.errorPluginPayload[0].errorHttpStatus]]></ee:set-variable>
+							<ee:set-variable variableName="errorTitle"><![CDATA[vars.errorPluginPayload[0].errorTitle]]></ee:set-variable>
+							<ee:set-variable variableName="validationErrors"><![CDATA[vars.errorValidationPayload.validationErrors]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</mule:when>
+				<mule:when expression="#[(sizeOf(vars.errorPluginPayload) == 1) and (sizeOf(vars.errorValidationPayload) != 1)]">
+					<ee:transform doc:name="Transform Message">
+						<ee:message>
+						</ee:message>
+						<ee:variables>
+							<ee:set-variable variableName="errorCode"><![CDATA[vars.errorPluginPayload[0].errorCode]]></ee:set-variable>
+							<ee:set-variable variableName="errorMessage"><![CDATA[vars.errorPluginPayload[0].errorMessage]]></ee:set-variable>
+							<ee:set-variable variableName="errorDeveloperMessage"><![CDATA[vars.errorPluginPayload[0].errorDeveloperMessage]]></ee:set-variable>
+							<ee:set-variable variableName="errorMoreInfo"><![CDATA[vars.errorPluginPayload[0].errorMoreInfo]]></ee:set-variable>
+							<ee:set-variable variableName="httpStatus"><![CDATA[vars.errorPluginPayload[0].errorHttpStatus]]></ee:set-variable>
+							<ee:set-variable variableName="errorTitle"><![CDATA[vars.errorPluginPayload[0].errorTitle]]></ee:set-variable>
 						</ee:variables>
 					</ee:transform>
 				</mule:when>
@@ -157,45 +250,51 @@ result]]></ee:set-payload>
 							<ee:set-variable variableName="errorCode"><![CDATA[500]]></ee:set-variable>
 							<ee:set-variable variableName="errorMessage"><![CDATA[vars.serverError default 'There is a server issue']]></ee:set-variable>
 							<ee:set-variable variableName="errorDeveloperMessage"><![CDATA[vars.serverError default 'There is a server issue']]></ee:set-variable>
+							<ee:set-variable variableName="errorMoreInfo"><![CDATA['There is no additional info']]></ee:set-variable>
 							<ee:set-variable variableName="httpStatus"><![CDATA[500]]></ee:set-variable>
 							<ee:set-variable variableName="errorTitle"><![CDATA["Internal Server Error"]]></ee:set-variable>
 						</ee:variables>
 					</ee:transform>
 				</mule:otherwise>
 			</mule:choice>
+			
 
 			<ee:transform doc:name="Error Response">
 				<ee:message>
-					<ee:set-payload><![CDATA[%dw 2.0
-				output application/json
-				---
-				 {
-                    "status": vars.httpStatus,
-					"payload": {
-						payload
-					},
-					"errors": [
+					<ee:set-payload>
+						<![CDATA[
+							%dw 2.0
+							output application/json
+							---
+							{
+								"status": vars.httpStatus,
+								"payload": vars.errorPayload default payload ,
+								"errors": [
+									{
+										"errorTitle": vars.errorTitle,
+										"errorMessage": vars.errorMessage,
+										"apiName": vars.apiName,
+										"version": vars.apiVersion,
+										"developerMessage": vars.errorDeveloperMessage default (vars.errorTitle ++ ' : ' ++ vars.errorMessage) ,
+										"errorCode": vars.errorCode,
+										"moreInfo": vars.moreInfo default (vars.errorTitle ++ ' : ' ++ vars.errorMessage),
+										"correlationId": correlationId,
+										"validationErrors": [vars.validationErrors default null]
+									}
+								]
+							}
+						]]>
+					</ee:set-payload>
+					<ee:set-attributes>
+					<![CDATA[
+						%dw 2.0
+						output application/json
+						---
 						{
-							"errorTitle": vars.errorTitle,
-							"errorMessage": vars.errorMessage,
-							"apiName": vars.apiName,
-							"version": vars.apiVersion,
-							"developerMessage": vars.errorDeveloperMessage,
-							"errorCode": vars.errorCode,
-							"moreInfo": vars.errorTitle   ++ ' : ' ++ vars.errorMessage,
-							"correlationId": correlationId,
-							"validationErrors": []
+							httpStatus: vars.httpStatus default 500
 						}
-					]
-                }
-				
-				]]></ee:set-payload>
-					<ee:set-attributes><![CDATA[%dw 2.0
-				output application/java
-				---
-				{
-					httpStatus: vars.httpStatus default 500
-				}]]></ee:set-attributes>
+					]]>
+				</ee:set-attributes>
 				</ee:message>
 
 			</ee:transform>

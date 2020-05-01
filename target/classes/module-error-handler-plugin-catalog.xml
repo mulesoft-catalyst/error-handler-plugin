@@ -13,6 +13,10 @@
 		<schema format="application/json+schema" location="./custom-error-schema.json" />
 	</catalog>
 
+	<catalog name="CustomValidationErrorTypes" format="application/json">
+		<schema format="application/json+schema" location="./custom-validation-error-schema.json" />
+	</catalog>
+
 	<catalog name="java" format="application/java">
 		<schema format="application/classloader" />
 	</catalog>

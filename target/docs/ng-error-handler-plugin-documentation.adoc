@@ -1,0 +1,68 @@
+:toc:               left
+:toc-title:         NG Error Handler Plugin Module
+:toclevels:         2
+:last-update-label!:
+:docinfo:
+:source-highlighter: coderay
+:icons: font
+
+
+= NG Error Handler Plugin Module Documentation Reference
+
++++
+This module relies entirely in runtime provided components (no other Plugin dependencies)
++++
+
+
+== Configurations
+
+== Operations
+
+[[on-error]]
+=== Process Error
+`<ng-error-handler-plugin:on-error>`
+
+
+==== Parameters
+[cols=".^20%,.^20%,.^35%,.^20%,^.^5%", options="header"]
+|======================
+| Name | Type | Description | Default Value | Required
+| Error a| Any |  |  +++#[error]+++ | {nbsp}
+| API Name a| Any |  |  +++#[p('api.name')]+++ | {nbsp}
+| API Version a| Any |  |  +++#[p('api.version')]+++ | {nbsp}
+| 400 Bad Request a| String |  |  +++There was an issue with your request message.+++ | {nbsp}
+| 401 Unauthorized a| String |  |  +++You have issues accessing the system+++ | {nbsp}
+| 404 Not Found a| String |  |  +++The API has not been implemented+++ | {nbsp}
+| 406 Not Acceptable a| String |  |  +++One of the request or parameters is unacceptable+++ | {nbsp}
+| 408 Timeout a| String |  |  +++You request to the server has been timed-out+++ | {nbsp}
+| 415 Unsupported Media Type a| String |  |  +++Media Type not supported+++ | {nbsp}
+| 429 Too Many Requests a| String |  |  +++You have made too many requests to the server+++ | {nbsp}
+| 500 Internal Server Error a| String |  |  +++There is a server issue+++ | {nbsp}
+| 501 Method Not Allowed a| String |  |  +++The method is not allowed+++ | {nbsp}
+| 501 Not Implemented a| String |  |  +++The method has not been implemented+++ | {nbsp}
+| 503 Bad Connectivity a| String |  |  +++You have issues accessing the system+++ | {nbsp}
+| correlationId a| String |  |  +++#[correlationId]+++ | {nbsp}
+| Error Title (Database:Bad SQL Query, CUSTOM:XYZ_ABC) a| String |  |  ++++++ | {nbsp}
+| Error Types (DB:BAD_SQL_SYNTAX, CUSTOM:XYZ_ABC) a| String |  |  ++++++ | {nbsp}
+| Error Codes (1234, 5678) a| String |  |  ++++++ | {nbsp}
+| HTTP Statuses (500, 499) a| String |  |  ++++++ | {nbsp}
+| Error Messages (DB Error, Custom Error) a| String |  |  ++++++ | {nbsp}
+| Error Developer Messages (DB Error, Custom Error) a| String |  |  ++++++ | {nbsp}
+| More Info Messages a| String |  |  +++No Additional Info+++ | {nbsp}
+| Error Map File Reference a| Any |  +++Supply a JSON array of objects like:      {      'errorType':'HTTP:FORBIDDEN',      'errorCode':401,      'httpStatus':401,      'errorMessage':vars.unauthorizedError default 'You have issues accessing the system',      'errorDeveloperMessage': vars.developerMessage default error.detailedDescription,      'errorTitle': 'Unauthorized'     }+++ |  ++++++ | {nbsp}
+| Validation Error Map File Reference a| Any |  +++Supply a JSON array of objects like:      {      'errorType': 'someType',      'validationErrors': [       { 'element':'element1','invalidValue':'invalidValue1','errorMessage','errorMessage1'},       { 'element':'element2','invalidValue':'invalidValue2','errorMessage','errorMessage2'},      ]     }+++ |  ++++++ | {nbsp}
+| Target Variable a| String |  +++The name of a variable on which the operation's output will be placed+++ |  | {nbsp}
+| Target Value a| String |  +++An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable+++ |  +++#[payload]+++ | {nbsp}
+|======================
+
+==== Output
+[cols=".^50%,.^50%"]
+|======================
+| *Type* a| Any
+| *Attributes Type* a| Any
+|======================
+
+
+
+
+

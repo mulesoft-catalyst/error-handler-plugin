@@ -40,15 +40,7 @@
              "type": "string"
            },
            "errorCode": {
-             "description": "CDPHP Error Code. See key at top",
-             "enum": [
-               "00000",
-               "10000",
-               "20001",
-               "20000"
-             ],
-             "type": "string",
-             "pattern": "^([0-9]{5})$"
+             "type": "integer"
            },
            "moreInfo": {
              "type": "string"
@@ -65,9 +57,9 @@
              "items": {
                "type": "object",
                "properties": {
-                 "element": "string",
-                 "invalidValue": "string",
-                 "errorMessage": "string"
+                 "element": {"type": "string"},
+                 "invalidValue": {"type": "string"},
+                 "errorMessage":{"type": "string"}
                }
              }
            }

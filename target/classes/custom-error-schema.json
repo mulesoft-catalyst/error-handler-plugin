@@ -1,77 +1,26 @@
 {
-  "type": "object",
-  "properties": {
-    "status": {
-      "type": "integer"
-    },
-    "payload": {
-      "type": "object"
-    },
-    "errors": {
-      "type": "array",
-      "additionalProperties": true,
-      "required": [
-        "errorTitle",
-        "errorMessage",
-        "apiName",
-        "version",
-        "developerMessage",
-        "errorCode",
-        "moreInfo",
-        "correlationId",
-        "validationErrors"
-      ],
-      "items":{
-        "properties": {
-          "errorTitle":{
-            "type": "string"
-          },
-          "errorMessage":{
-            "type": "string"
-          },
-          "apiName":{
-            "type": "string"
-          },
-          "version":{
-            "type": "string"
-          },
-          "developerMessage": 
-          {
-            "type": "string"
-          },
-          "errorCode": {
-            "description": "CDPHP Error Code. See key at top",
-            "enum": [
-              "00000",
-              "10000",
-              "20001",
-              "20000"
-            ],
-            "type": "string",
-            "pattern": "^([0-9]{5})$"
-          },
-          "moreInfo": {
-            "type": "string"
-          },
-          "correlationId": {
-            "description": "Passed from the inbound headers. Used to track transactions across systems.",
-            "type": "string"
-          },
-          "validationErrors":{
-            "description": "Error Object Displayed for Form Validation Errors when the HTTP Response is still 200",
-            "type": "array",
-            "additionalProperties": true,
-            "items": {
-              "type": "object",
-              "properties": {
-                "element": "string",
-                "invalidValue": "string",
-                "errorMessage": "string"
-              }
-            }
-          }
-        }
-      }
-    }
+  "type":"object",
+  "properties":{
+     "errorType":{
+        "type":"string"
+     },
+     "errorCode":{
+        "type":"integer"
+     },
+     "errorHttpStatus":{
+         "type":"integer"
+      },
+     "errorMessage":{
+        "type":"string"
+     },
+     "errorDeveloperMessage":{
+         "type":"string"
+   },
+   "errorMoreInfo":{
+      "type":"string"
+   },
+     "errorTitle":{
+         "type":"string"
+   }
   }
 }

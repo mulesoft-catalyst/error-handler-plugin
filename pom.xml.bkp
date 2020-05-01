@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>56c14f77-79ed-4de3-8313-d542ea9f232b</groupId>
-	<artifactId>common-error-handler</artifactId>
-	<version>2.0.0</version>
+	<groupId>ORG_ID_TOKEN</groupId>
+	<artifactId>ng-common-error-handler</artifactId>
+	<version>2.1.1</version>
 	<packaging>mule-extension</packaging>
 
-	<name>error-handler-plugin</name>
+	<name>ng-error-handler-plugin</name>
 	<description>A Mule extension done with pure Mule DSL</description>
 
 	<parent>
@@ -37,7 +37,7 @@
 
 	<distributionManagement>
 		<repository>
-			<id>Exchange2</id>
+			<id>ng-cloudhub</id>
 			<name>Mule Repo</name>
 			<url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${project.groupId}/maven</url>
 			<layout>default</layout>

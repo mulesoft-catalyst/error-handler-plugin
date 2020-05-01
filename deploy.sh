@@ -23,7 +23,7 @@ sed -i.bkp "s/ORG_ID_TOKEN/$1/g" pom.xml
 echo "Deploying to Exchange..."
 
 echo mvn -f pom.xml clean deploy
-mvn -X -f pom.xml clean deploy
+mvn -f pom.xml clean deploy
 
 if [ $? != 0 ]
 then

@@ -1,0 +1,1050 @@
+{
+  "name": "NG Error Handler Plugin",
+  "description": "This module relies entirely in runtime provided components (no other Plugin dependencies)",
+  "version": "4.0.0",
+  "vendor": "MuleSoft",
+  "category": "SELECT",
+  "xmlDsl": {
+    "prefix": "ng-error-handler-plugin",
+    "namespace": "http://www.mulesoft.org/schema/mule/ng-error-handler-plugin",
+    "schemaLocation": "http://www.mulesoft.org/schema/mule/ng-error-handler-plugin/current/mule-ng-error-handler-plugin.xsd",
+    "schemaVersion": "4.0.0",
+    "xsdFileName": "mule-ng-error-handler-plugin.xsd"
+  },
+  "resources": [],
+  "subTypes": [],
+  "privilegedPackages": [],
+  "privilegedArtifacts": [],
+  "externalLibraries": [],
+  "importedTypes": [],
+  "configurations": [],
+  "operations": [
+    {
+      "blocking": true,
+      "executionType": "CPU_LITE",
+      "output": {
+        "type": {
+          "format": "json",
+          "type": "Object",
+          "open": {
+            "type": "Any"
+          },
+          "fields": [
+            {
+              "key": {
+                "name": "payload"
+              },
+              "model": {
+                "type": "Object",
+                "open": {
+                  "type": "Any"
+                },
+                "fields": []
+              }
+            },
+            {
+              "key": {
+                "name": "errors"
+              },
+              "model": {
+                "type": "Array",
+                "item": {
+                  "type": "Object",
+                  "open": {
+                    "type": "Any"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "apiName"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "developerMessage"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "errorTitle"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "errorMessage"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "errorCode"
+                      },
+                      "model": {
+                        "type": "Number",
+                        "annotations": {
+                          "int": {}
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "validationErrors"
+                      },
+                      "model": {
+                        "type": "Array",
+                        "annotations": {
+                          "description": {
+                            "value": "Error Object Displayed for Form Validation Errors when the HTTP Response is still 200"
+                          }
+                        },
+                        "item": {
+                          "type": "Object",
+                          "open": {
+                            "type": "Any"
+                          },
+                          "fields": [
+                            {
+                              "key": {
+                                "name": "errorMessage"
+                              },
+                              "model": {
+                                "type": "String"
+                              }
+                            },
+                            {
+                              "key": {
+                                "name": "element"
+                              },
+                              "model": {
+                                "type": "String"
+                              }
+                            },
+                            {
+                              "key": {
+                                "name": "invalidValue"
+                              },
+                              "model": {
+                                "type": "String"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "correlationId"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "version"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "moreInfo"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "key": {
+                "name": "status"
+              },
+              "model": {
+                "type": "Number",
+                "annotations": {
+                  "int": {}
+                }
+              }
+            }
+          ]
+        },
+        "hasDynamicType": false,
+        "description": "",
+        "modelProperties": {}
+      },
+      "outputAttributes": {
+        "type": {
+          "format": "json",
+          "type": "Object",
+          "fields": [
+            {
+              "key": {
+                "name": "httpStatus"
+              },
+              "model": {
+                "type": "String"
+              }
+            }
+          ]
+        },
+        "hasDynamicType": false,
+        "description": "",
+        "modelProperties": {}
+      },
+      "transactional": false,
+      "requiresConnection": false,
+      "supportsStreaming": false,
+      "notifications": [],
+      "nestedComponents": [],
+      "errors": [],
+      "stereotype": {
+        "type": "PROCESSOR",
+        "namespace": "MULE"
+      },
+      "parameterGroupModels": [
+        {
+          "parameters": [
+            {
+              "type": {
+                "format": "java",
+                "type": "Any"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "#[error]",
+              "role": "PRIMARY_CONTENT",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": false,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "General"
+              },
+              "allowedStereotypeModels": [],
+              "name": "error",
+              "displayModel": {},
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "Any"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "#[p(\u0027api.name\u0027)]",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "order": 1,
+                "tabName": "General"
+              },
+              "allowedStereotypeModels": [],
+              "name": "apiName",
+              "displayModel": {
+                "displayName": "API Name"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "Any"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "#[p(\u0027api.version\u0027)]",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "order": 2,
+                "tabName": "General"
+              },
+              "allowedStereotypeModels": [],
+              "name": "apiVersion",
+              "displayModel": {
+                "displayName": "API Version"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "There was an issue with your request message.",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Common Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "badRequestError",
+              "displayModel": {
+                "displayName": "400 Bad Request"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "You have issues accessing the system",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Common Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "unauthorizedError",
+              "displayModel": {
+                "displayName": "401 Unauthorized"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "The API has not been implemented",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Common Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "notFoundError",
+              "displayModel": {
+                "displayName": "404 Not Found"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "One of the request or parameters is unacceptable",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Common Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "notAcceptableError",
+              "displayModel": {
+                "displayName": "406 Not Acceptable"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "You request to the server has been timed-out",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Common Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "timeoutError",
+              "displayModel": {
+                "displayName": "408 Timeout"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "Media Type not supported",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Common Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "unsupportedMediaTypeError",
+              "displayModel": {
+                "displayName": "415 Unsupported Media Type"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "You have made too many requests to the server",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Common Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "tooManyRequestsError",
+              "displayModel": {
+                "displayName": "429 Too Many Requests"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "There is a server issue",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Common Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "serverError",
+              "displayModel": {
+                "displayName": "500 Internal Server Error"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "The method is not allowed",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Common Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "methodNotAllowedError",
+              "displayModel": {
+                "displayName": "501 Method Not Allowed"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "The method has not been implemented",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Common Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "notImplemented",
+              "displayModel": {
+                "displayName": "501 Not Implemented"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "You have issues accessing the system",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Common Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "connectivityError",
+              "displayModel": {
+                "displayName": "503 Bad Connectivity"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "#[correlationId]",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "CorrelationId"
+              },
+              "allowedStereotypeModels": [],
+              "name": "correlationId",
+              "displayModel": {
+                "displayName": "correlationId"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Custom Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "errorTitles",
+              "displayModel": {
+                "displayName": "Error Title (Database:Bad SQL Query, CUSTOM:XYZ_ABC)"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Custom Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "errorTypes",
+              "displayModel": {
+                "displayName": "Error Types (DB:BAD_SQL_SYNTAX, CUSTOM:XYZ_ABC)"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Custom Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "errorCodes",
+              "displayModel": {
+                "displayName": "Error Codes (1234, 5678)"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Custom Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "errorHttpStatuses",
+              "displayModel": {
+                "displayName": "HTTP Statuses (500, 499)"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Custom Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "errorMessages",
+              "displayModel": {
+                "displayName": "Error Messages (DB Error, Custom Error)"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Custom Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "errorDeveloperMessages",
+              "displayModel": {
+                "displayName": "Error Developer Messages (DB Error, Custom Error)"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "No Additional Info",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Custom Errors"
+              },
+              "allowedStereotypeModels": [],
+              "name": "errorMoreInfos",
+              "displayModel": {
+                "displayName": "More Info Messages"
+              },
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "Any"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Custom Error Map"
+              },
+              "allowedStereotypeModels": [],
+              "name": "customErrorMap",
+              "displayModel": {
+                "displayName": "Error Map File Reference",
+                "summary": "Refer to file like: #[file::dwl/customErrorsMap.dwl]",
+                "example": "#[file::dwl/customErrorsMap.dwl]"
+              },
+              "description": "Supply a JSON array of objects like:      {      \u0027errorType\u0027:\u0027HTTP:FORBIDDEN\u0027,      \u0027errorCode\u0027:401,      \u0027httpStatus\u0027:401,      \u0027errorMessage\u0027:vars.unauthorizedError default \u0027You have issues accessing the system\u0027,      \u0027errorDeveloperMessage\u0027: vars.developerMessage default error.detailedDescription,      \u0027errorTitle\u0027: \u0027Unauthorized\u0027     }",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "Any"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Custom Validation Error Map"
+              },
+              "allowedStereotypeModels": [],
+              "name": "customValidationErrorMap",
+              "displayModel": {
+                "displayName": "Validation Error Map File Reference",
+                "summary": "Refer to file like: #[file::dwl/customValidationErrorsMap.dwl]",
+                "example": "#[file::dwl/customValidationErrorsMap.dwl]"
+              },
+              "description": "Supply a JSON array of objects like:      {      \u0027errorType\u0027: \u0027someType\u0027,      \u0027validationErrors\u0027: [       { \u0027element\u0027:\u0027element1\u0027,\u0027invalidValue\u0027:\u0027invalidValue1\u0027,\u0027errorMessage\u0027,\u0027errorMessage1\u0027},       { \u0027element\u0027:\u0027element2\u0027,\u0027invalidValue\u0027:\u0027invalidValue2\u0027,\u0027errorMessage\u0027,\u0027errorMessage2\u0027},      ]     }",
+              "modelProperties": {}
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false,
+          "name": "General",
+          "description": "",
+          "modelProperties": {}
+        },
+        {
+          "parameters": [
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "NOT_SUPPORTED",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Advanced"
+              },
+              "allowedStereotypeModels": [],
+              "name": "target",
+              "displayModel": {
+                "displayName": "Target Variable"
+              },
+              "description": "The name of a variable on which the operation\u0027s output will be placed",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "REQUIRED",
+              "defaultValue": "#[payload]",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "tabName": "Advanced"
+              },
+              "allowedStereotypeModels": [],
+              "name": "targetValue",
+              "displayModel": {
+                "displayName": "Target Value"
+              },
+              "description": "An expression that will be evaluated against the operation\u0027s output and the outcome of that expression will be stored in the target variable",
+              "modelProperties": {}
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false,
+          "name": "Output",
+          "description": "",
+          "modelProperties": {}
+        }
+      ],
+      "name": "on-error",
+      "displayModel": {
+        "displayName": "Process Error"
+      },
+      "description": "",
+      "modelProperties": {},
+      "kind": "operation"
+    }
+  ],
+  "functions": [],
+  "constructs": [],
+  "connectionProviders": [],
+  "messageSources": [],
+  "notifications": [],
+  "errors": [],
+  "modelProperties": {
+    "org.mule.runtime.extension.api.property.XmlExtensionModelProperty": {
+      "namespacesDependencies": [
+        "http://www.mulesoft.org/schema/mule/documentation",
+        "http://www.mulesoft.org/schema/mule/http",
+        "http://www.mulesoft.org/schema/mule/ee/core",
+        "http://www.w3.org/2001/XMLSchema-instance",
+        "http://www.mulesoft.org/schema/mule/core",
+        "http://www.mulesoft.org/schema/mule/email"
+      ]
+    }
+  },
+  "types": []
+}
