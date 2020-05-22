@@ -33,6 +33,38 @@ Add this dependency to your application pom.xml
 </dependency>
 ```
 
+## Standard Error for all Schema produced by this plugin will include:
+
+- _errorTitle_: to provide a human-readable & front-end presentable title for a given error object.
+- _errorMessage_: to provide a human-readable longer explanation for the cause of the error.
+- _apiName_: to provide information on the name of the API where the error occurred.
+- _version_: to provide the version of the API where the error occurred.
+- _developerMessage_: to provide a longer field for providing technical information on the cause of the error aimed at technical audiences.
+- _errorCode_: to provide an internal error code for easy classification and categorization of errors.
+- _moreInfo_: to provide a link back to additional information on the error or specific logs
+- _correlationId_: to provide tracking information on the correlation ID of the initiating HTTP Request causing the error.
+- _validationErrors_: an array of validation errors to specifically point out on-screen elements/user input that caused an error as it did not pass validation requirements for a given field. This will include a reason that can be displayed as a validation error message back to a user.
+
+```
+{
+  "status": 400,
+  "payload": "No Payload Available",
+  "errors": [
+    {
+      "errorTitle": "Bad Request",
+      "errorMessage": "There was an issue with your request message. Error is: \"Invalid value 'application/js' for header 'Content-Type'\"",
+      "apiName": "ng-example-api",
+      "version": "1.0.8",
+      "developerMessage": null,
+      "errorCode": 400,
+      "moreInfo": "Bad Request : There was an issue with your request message. Error is: \"Invalid value 'application/js' for header 'Content-Type'\"",
+      "correlationId": "3527d020-7e70-11ea-a2aa-38f9d3d3296a",
+      "validationErrors": []
+    }
+  ]
+}
+```
+
 ## Usage
 
 - Delete the auto-generated error blocks (on-error-propagate/on-error-continue) before using this module.
@@ -42,14 +74,14 @@ Add this dependency to your application pom.xml
 The error response should be changed to the following to send back the populated error message.
 ```
 <http:listener doc:name="Listener" doc:id="1d3566ad-c8dc-4b8a-ab45-338625c74afb" config-ref="HTTP_Listener_config" path="/error">
-            <http:response statusCode="#[vars.httpStatus default 200]">
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
-            </http:response>
-            <http:error-response statusCode="#[vars.httpStatus default 500]">
-                <http:body>#[payload]</http:body>
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
-            </http:error-response>
-        </http:listener>
+     <http:response statusCode="#[vars.httpStatus default 200]">
+         <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+     </http:response>
+     <http:error-response statusCode="#[vars.httpStatus default 500]">
+         <http:body>#[payload]</http:body>
+         <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+     </http:error-response>
+</http:listener>
 ```
 
 ## Tabs
@@ -73,11 +105,67 @@ Common HTTP based errors are defined in this section. Users have to provide the 
 
 Currently due to a limitation on XML SDK, text based entries are required for custom errors. The number of entries have to match else it will fail to be successfully executed.
 
-errorTypes: Have to provided as `,` separated values. Example : DB:BAD_SQL_SYNTAX, ABC:DEF
-errorCodes: Have to provided as `,` separated values. Example : 500, 599
+Currently due to a limitation on XML SDK, text based entries are required for custom errors. The number of entries have to match else it will fail to be successfully executed.
+
+errorTitles: Have to provided as `,` separated values. Example : Example Error, Database: BAD SQL Query, Deletion Error
+
+errorTypes: Have to provided as `,` separated values. Example : EXAMPLE:ERROR, DB:BAD\_SQL\_SYNTAX, ABC:DEF
+
+errorCodes: Have to provided as `,` separated values. Example : 1000,2000, 3000
+
+httpStatusCodes: Have to provided as `,` separated values. Example : 500,400, 599
+
 errorMessages: Have to provided as `,` separated values. Example : SQL Syntax is incorrect, Testing
 
+errorDeveloperMessages: Have to provided as `,` separated values. Example : My Example Error, SQL Syntax is incorrect, Testing
+
+moreInfoMessages:  Have to provided as `,` separated values. Example : Additional Info,Addional Info 2, Additional Info 3
+
 ![alt text](customErrors.png)
+
+### Customer Error Map
+Allows to provide a DataWeave file with a map to match to error based on error Type mule variables: error.errorType.namespace and error.errorType.identifier 
+
+![alt text](customErrorsMap.png)
+
+Map File should follow the following schema:
+
+```
+%dw 2.0
+output application/json
+---
+[
+	{
+      "errorType":"EXAMPLE:MAP",
+      "errorHttpStatus":400,
+      "errorCode":1234,
+      "errorMessage": "Map Error Message",
+      "errorDeveloperMessage":  "Map Error Developer Message",
+      "errorTitle": "Customer Error Map Error"
+   }
+]
+```
+
+### Customer Validation Error Map
+
+Allows to provide a DataWeave file with a map to match to error based on error Type mule variables: error.errorType.namespace and error.errorType.identifier for the population of standard validation errors in the `validitionErrors` array.
+
+![alt text](customValidationError.png)
+
+```
+output application/json
+---
+[
+  {
+      "errorType":"EXAMPLE:MAP",
+      "validationErrors":[
+      	{ "element":"elemnt1","invalidValue": "inavlidValue1","errorMessage": "erroMessage1"},
+      	{ "element":"elemntA","invalidValue": "inavlidValueB","errorMessage": "erroMessageC"}
+      ]
+      
+   }
+]
+```
 
 ### CorrelationId
 
