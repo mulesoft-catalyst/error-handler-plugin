@@ -5,10 +5,10 @@
 
 	<groupId>ORG_ID_TOKEN</groupId>
 	<artifactId>ng-common-error-handler</artifactId>
-	<version>2.1.1</version>
+	<version>3.0.0</version>
 	<packaging>mule-extension</packaging>
 
-	<name>ng-error-handler-plugin</name>
+	<name>common-handler-plugin</name>
 	<description>A Mule extension done with pure Mule DSL</description>
 
 	<parent>

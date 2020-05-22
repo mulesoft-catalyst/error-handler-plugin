@@ -38,7 +38,7 @@ This module relies entirely in runtime provided components (no other Plugin depe
 | 415 Unsupported Media Type a| String |  |  +++Media Type not supported+++ | {nbsp}
 | 429 Too Many Requests a| String |  |  +++You have made too many requests to the server+++ | {nbsp}
 | 500 Internal Server Error a| String |  |  +++There is a server issue+++ | {nbsp}
-| 501 Method Not Allowed a| String |  |  +++The method is not allowed+++ | {nbsp}
+| 405 Method Not Allowed a| String |  |  +++The method is not allowed+++ | {nbsp}
 | 501 Not Implemented a| String |  |  +++The method has not been implemented+++ | {nbsp}
 | 503 Bad Connectivity a| String |  |  +++You have issues accessing the system+++ | {nbsp}
 | correlationId a| String |  |  +++#[correlationId]+++ | {nbsp}

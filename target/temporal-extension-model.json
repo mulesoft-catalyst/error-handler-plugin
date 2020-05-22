@@ -574,7 +574,7 @@
               "allowedStereotypeModels": [],
               "name": "methodNotAllowedError",
               "displayModel": {
-                "displayName": "501 Method Not Allowed"
+                "displayName": "405 Method Not Allowed"
               },
               "description": "",
               "modelProperties": {}
