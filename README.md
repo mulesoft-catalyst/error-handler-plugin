@@ -1,4 +1,6 @@
-# Error Plugin for Mule 4
+# Error Plugin for Mule 4.2.x
+
+**This is only for minimum Mule version 4.2.x onwards**
 
 This custom error handler plugin allows a single module to process error messages from multiple types:
 - Error types default to mule. (HTTP, APIKIT, Connectors based, etc)
@@ -7,6 +9,8 @@ This custom error handler plugin allows a single module to process error message
 - User can change the custom error message (for multiple errors) in the UI rather than in the XML.
 - Users intending to use other error types should put them on on-error-propagate or on-error-continue prior to using this module.
 - No specific error type is required for this module. It can parse any error types.
+- Propagate errors from sys/prc layer back to exp layer, cementing error propagation across layers.
+- To propagate the errors, ensure the appropriate variable name is referenced in the previous error section.
 
 ## Operations Supported
 On Error
@@ -94,6 +98,8 @@ The error response should be changed to the following to send back the populated
 ### General
 
 - Takes values for apiName and apiVersion. Current default values will be read from a property file `api.name` and `api.version` respectively.
+- Takes value for the previous error message that needs to be propagated. It has to be of type `array`.
+![alt text](previousError.png)
 - Error section defines from what mule expression should the error be read.
 - httpStatus set variable is required to send back the httpStatus on the http response
 
