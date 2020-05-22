@@ -70,6 +70,11 @@ Add this dependency to your application pom.xml
 - Delete the auto-generated error blocks (on-error-propagate/on-error-continue) before using this module.
 - Place the plugin inside an error block (on-error-propagate/on-error-continue) along with a variable for httpStatus.
 
+## Example Global Error Handler
+You can create an error handler like below in `error.xml` and refer all flow error-handling sections to it. Then you can use Raise Error Components within flows to assign a custom error type that will be handled by this error handler centrally.
+
+![alt text](exampleGlobalErrorHandler.png)
+
 ## HTTP Listener Configuration
 The error response should be changed to the following to send back the populated error message.
 ```
