@@ -65,7 +65,7 @@
 				role="BEHAVIOUR" tab="Common Errors"></parameter>
 
 			<parameter name="methodNotAllowedError" type="string"
-				displayName="501 Method Not Allowed" use="OPTIONAL"
+				displayName="405 Method Not Allowed" use="OPTIONAL"
 				defaultValue="The method is not allowed" role="BEHAVIOUR"
 				tab="Common Errors"></parameter>
 

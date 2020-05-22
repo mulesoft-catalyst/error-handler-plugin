@@ -157,8 +157,8 @@ output application/json
    },
 	 {
       "errorType":"APIKIT:METHOD_NOT_ALLOWED",
-      "errorCode":501,
-      "errorHttpStatus":501,
+      "errorCode":405,
+      "errorHttpStatus":405,
       "errorMessage":vars.methodNotAllowedError default "The method has not been implemented",
       "errorDeveloperMessage": vars.developerMessage default error.detailedDescription,
       "errorMoreInfo": "No Additional Info",
@@ -166,8 +166,8 @@ output application/json
    },
 	 {
       "errorType":"HTTP:METHOD_NOT_ALLOWED",
-      "errorCode":501,
-      "errorHttpStatus":501,
+      "errorCode":405,
+      "errorHttpStatus":405,
       "errorMessage":vars.methodNotAllowedError default "The method is not allowed",
       "errorDeveloperMessage": vars.developerMessage default error.detailedDescription,
       "errorMoreInfo": "No Additional Info",
