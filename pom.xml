@@ -5,7 +5,7 @@
 
 	<groupId>ORG_ID_TOKEN</groupId>
 	<artifactId>common-error-handler</artifactId>
-	<version>3.0.0</version>
+	<version>3.0.1</version>
 	<packaging>mule-extension</packaging>
 
 	<name>common-handler-plugin</name>
