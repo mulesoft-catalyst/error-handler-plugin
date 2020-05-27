@@ -8,7 +8,7 @@
 	<version>3.0.1</version>
 	<packaging>mule-extension</packaging>
 
-	<name>common-handler-plugin</name>
+	<name>error-handler-plugin</name>
 	<description>A Mule extension done with pure Mule DSL</description>
 
 	<parent>
