@@ -7,7 +7,7 @@
 			"resource-xml": "module-error-handler-plugin.xml"
 		}
 	},
-	"name": "NG Error Handler Plugin",
+	"name": "Error Handler Plugin",
 	"classLoaderModelLoaderDescriptor": {
 		"id": "mule",
 		"attributes": {
