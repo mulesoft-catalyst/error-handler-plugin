@@ -1,15 +1,15 @@
 {
-  "name": "NG Error Handler Plugin",
+  "name": "Error Handler Plugin",
   "description": "This module relies entirely in runtime provided components (no other Plugin dependencies)",
   "version": "4.0.0",
   "vendor": "MuleSoft",
   "category": "SELECT",
   "xmlDsl": {
-    "prefix": "ng-error-handler-plugin",
-    "namespace": "http://www.mulesoft.org/schema/mule/ng-error-handler-plugin",
-    "schemaLocation": "http://www.mulesoft.org/schema/mule/ng-error-handler-plugin/current/mule-ng-error-handler-plugin.xsd",
+    "prefix": "error-handler-plugin",
+    "namespace": "http://www.mulesoft.org/schema/mule/error-handler-plugin",
+    "schemaLocation": "http://www.mulesoft.org/schema/mule/error-handler-plugin/current/mule-error-handler-plugin.xsd",
     "schemaVersion": "4.0.0",
-    "xsdFileName": "mule-ng-error-handler-plugin.xsd"
+    "xsdFileName": "mule-error-handler-plugin.xsd"
   },
   "resources": [],
   "subTypes": [],
@@ -197,7 +197,10 @@
                 "name": "httpStatus"
               },
               "model": {
-                "type": "String"
+                "type": "Number",
+                "annotations": {
+                  "int": {}
+                }
               }
             }
           ]
@@ -239,11 +242,43 @@
                 "password": false,
                 "text": false,
                 "query": false,
+                "order": 1,
                 "tabName": "General"
               },
               "allowedStereotypeModels": [],
               "name": "error",
               "displayModel": {},
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "Any"
+              },
+              "hasDynamicType": false,
+              "required": false,
+              "isConfigOverride": false,
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "#[vars.previousErrorsDetails default []]",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "order": 1,
+                "tabName": "General"
+              },
+              "allowedStereotypeModels": [],
+              "name": "previousErrors",
+              "displayModel": {
+                "displayName": "Previous Error"
+              },
               "description": "",
               "modelProperties": {}
             },
@@ -267,7 +302,7 @@
                 "password": false,
                 "text": false,
                 "query": false,
-                "order": 1,
+                "order": 2,
                 "tabName": "General"
               },
               "allowedStereotypeModels": [],
@@ -298,7 +333,7 @@
                 "password": false,
                 "text": false,
                 "query": false,
-                "order": 2,
+                "order": 3,
                 "tabName": "General"
               },
               "allowedStereotypeModels": [],
@@ -920,7 +955,7 @@
               "required": false,
               "isConfigOverride": false,
               "expressionSupport": "SUPPORTED",
-              "defaultValue": "",
+              "defaultValue": "[]",
               "role": "BEHAVIOUR",
               "dslConfiguration": {
                 "allowsInlineDefinition": true,
@@ -940,7 +975,7 @@
                 "summary": "Refer to file like: #[file::dwl/customValidationErrorsMap.dwl]",
                 "example": "#[file::dwl/customValidationErrorsMap.dwl]"
               },
-              "description": "Supply a JSON array of objects like:      {      \u0027errorType\u0027: \u0027someType\u0027,      \u0027validationErrors\u0027: [       { \u0027element\u0027:\u0027element1\u0027,\u0027invalidValue\u0027:\u0027invalidValue1\u0027,\u0027errorMessage\u0027,\u0027errorMessage1\u0027},       { \u0027element\u0027:\u0027element2\u0027,\u0027invalidValue\u0027:\u0027invalidValue2\u0027,\u0027errorMessage\u0027,\u0027errorMessage2\u0027},      ]     }",
+              "description": "Supply a JSON array of objects like:      {      \u0027errorType\u0027: \u0027someType\u0027,      \u0027errorTitle\u0027: \u0027someTitle\u0027,      \u0027validationErrors\u0027: [       { \u0027element\u0027:\u0027element1\u0027,\u0027invalidValue\u0027:\u0027invalidValue1\u0027,\u0027errorMessage\u0027,\u0027errorMessage1\u0027},       { \u0027element\u0027:\u0027element2\u0027,\u0027invalidValue\u0027:\u0027invalidValue2\u0027,\u0027errorMessage\u0027,\u0027errorMessage2\u0027},      ]     } This will match based on combination of errorType and errorTitle",
               "modelProperties": {}
             }
           ],

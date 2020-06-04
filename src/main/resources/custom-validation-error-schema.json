@@ -4,6 +4,9 @@
       "errorType": {
          "type": "string" 
       },
+      "errorTitle": {
+         "type": "string" 
+      },
       "validationErrors": {
          "description": "Error Object Displayed for Form Validation Errors when the HTTP Response is still 200",
          "type": "array",

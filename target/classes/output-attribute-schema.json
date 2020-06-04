@@ -2,7 +2,7 @@
   "type": "object",
   "properties": {
     "httpStatus": {
-      "type": "string"
+      "type": "integer"
     }
   },
   "additionalProperties": false
