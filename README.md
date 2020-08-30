@@ -7,6 +7,8 @@
 
 **This is only for minimum Mule version 4.2.x onwards**
 
+## General
+
 This custom error handler plugin allows a single module to process error messages from multiple types:
 - Error types default to mule. (HTTP, APIKIT, Connectors based, etc)
 - custom error types as defined by raise error component. 
