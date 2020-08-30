@@ -13,7 +13,8 @@
 		"attributes": {
 			"exportedResources": [
 				"dwl/customErrors.dwl",
-				"dwl/defaultErrors.dwl"
+				"dwl/defaultErrors.dwl",
+				"dwl/sampleCustomErrors.dwl"
 			]
 		}
 	},

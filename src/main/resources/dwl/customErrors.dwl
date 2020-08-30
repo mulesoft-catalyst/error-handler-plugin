@@ -5,7 +5,13 @@ var errorTypes = vars.errorTypes splitBy(',')
 var errorCodes = vars.errorCodes splitBy(',')
 var errorMessages = vars.errorMessages splitBy(',')
 ---
-if ((sizeOf(errorTypes) == sizeOf(errorCodes)) and (sizeOf(errorTypes) == sizeOf(errorMessages))) (
+if (vars.useMuleDefaultError) [{
+    errorType: (vars.error.errorType.namespace default '') ++ ':' ++ (vars.error.errorType.identifier default ''),
+    errorCode: 500,
+    errorMessage: vars.error.description
+    }]
+
+else if ((sizeOf(errorTypes) == sizeOf(errorCodes)) and (sizeOf(errorTypes) == sizeOf(errorMessages))) (
 	
 	errorTypes map ((item, index) -> {
     errorType: trim(errorTypes[index]),
