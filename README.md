@@ -1,6 +1,13 @@
 # Error Plugin for Mule 4.2.x
 
-**This is only for minimum Mule version 4.2.0 onwards**
+## Branches
+
+- 4.2.x -- https://github.com/mulesoft-catalyst/error-handler-plugin/tree/4.0.0
+- 4.3.x -- https://github.com/mulesoft-catalyst/error-handler-plugin/tree/5.0.0
+
+**This is only for minimum Mule version 4.2.x onwards**
+
+## General
 
 This custom error handler plugin allows a single module to process error messages from multiple types:
 - Error types default to mule. (HTTP, APIKIT, Connectors based, etc)
