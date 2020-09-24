@@ -46,7 +46,7 @@ This module relies entirely in runtime provided components (no other Plugin depe
 | Error Title (Database:Bad SQL Query, CUSTOM:XYZ_ABC) a| String |  |  ++++++ | {nbsp}
 | Error Types (DB:BAD_SQL_SYNTAX, CUSTOM:XYZ_ABC) a| String |  |  ++++++ | {nbsp}
 | Error Codes (1234, 5678) a| String |  |  ++++++ | {nbsp}
-| HTTP Statuses (500, 499) a| String |  |  ++++++ | {nbsp}
+| HTTP Statuses (500, 499) a| Number |  |  ++++++ | {nbsp}
 | Error Messages (DB Error, Custom Error) a| String |  |  ++++++ | {nbsp}
 | Error Developer Messages (DB Error, Custom Error) a| String |  |  ++++++ | {nbsp}
 | More Info Messages a| String |  |  +++No Additional Info+++ | {nbsp}

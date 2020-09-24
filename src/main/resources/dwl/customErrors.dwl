@@ -14,7 +14,7 @@ if ((sizeOf(errorTypes) == sizeOf(errorCodes)) and (sizeOf(errorTypes) == sizeOf
 	errorTypes map ((item, index) -> {
     errorType: trim(errorTypes[index]),
     errorCode: trim(errorCodes[index]) default '500',
-    errorHttpStatus: trim(errorHttpStatuses[index]) default '500',
+    errorHttpStatus: trim(errorHttpStatuses[index]) as number default 500,
     errorDeveloperMessage: trim(errorDeveloperMessages[index]) default 'This was a server error, please review logs',
     errorMoreInfo: trim(errorMoreInfos[index]) default 'Additional Info can be found in logs',
     errorMessage: trim(errorMessages[index]) default 'There was a server error',

@@ -797,7 +797,7 @@
             {
               "type": {
                 "format": "java",
-                "type": "String"
+                "type": "Number"
               },
               "hasDynamicType": false,
               "required": false,

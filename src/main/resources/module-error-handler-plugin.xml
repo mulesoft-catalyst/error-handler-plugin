@@ -70,7 +70,7 @@
 				displayName="Error Codes (1234, 5678)" defaultValue="" role="BEHAVIOUR"
 				tab="Custom Errors"></parameter>
 				
-			<parameter name="errorHttpStatuses" type="string" use="OPTIONAL"
+			<parameter name="errorHttpStatuses" type="number" use="OPTIONAL"
 				displayName="HTTP Statuses (500, 499)" defaultValue="" role="BEHAVIOUR"
 				tab="Custom Errors"></parameter>
 
