@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean"
+    },
+    "apiName":{
+      "type": "string"
+    },
+    "version":{
+      "type": "string"
+    },
+    "correlationId": {
+      "type": "string"
+    },
+    "timestamp":{
+      "type": "string"
+    },
+    "errorDetails":{
+      "type": "object",
+      "properties": {
+        "errorCode": {
+          "type":"string"
+        },
+        "message":{
+          "type":"string"
+        },
+        "additionalInfo":{
+          "type":"object"
+        }
+        
+      }
+    }
+  },
+  "additionalProperties": false
+}
