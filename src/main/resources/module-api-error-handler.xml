@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="API Error Handler"
+	prefix="api-error-handler-module" category="SELECT"
+	doc:description="This module relies entirely in runtime provided components (no other Plugin dependencies)"
+	xmlns="http://www.mulesoft.org/schema/mule/module"
+	xmlns:mule="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:core="http://www.mulesoft.org/schema/mule/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		   http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+           http://www.mulesoft.org/schema/mule/module http://www.mulesoft.org/schema/mule/module/current/mule-module.xsd
+           http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd  
+           http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<operation name="process-error" displayName="Process Error">
+
+
+		<parameters>
+
+			<parameter name="error" type="any"
+				displayName="Error Object" defaultValue="#[error]" role="PRIMARY"
+				order="1" tab="Advanced"></parameter>
+
+			<parameter name="badRequestError" type="string"
+				use="OPTIONAL" displayName="400 Bad Request"
+				defaultValue='#[error.description default "There was an issue with your request"]'
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="unauthorizedError" type="string"
+				use="OPTIONAL" displayName="401 Unauthorized"
+				defaultValue='#[error.description default "Authentication was not provided or is invalid"]'
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="forbiddenError" type="string"
+				use="OPTIONAL" displayName="403 Forbidden"
+				defaultValue='#[error.description default "You are not allowed to make this request"]'
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="notFoundError" type="string"
+				use="OPTIONAL" displayName="404 Not Found"
+				defaultValue='#[error.description default "Resource not found"]'
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="methodNotAllowedError" type="string"
+				use="OPTIONAL" displayName="405 Method Not Allowed"
+				defaultValue='#[error.description default "Method not allowed"]'
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="notAcceptableError" type="string"
+				use="OPTIONAL" displayName="406 Not Acceptable"
+				defaultValue='#[error.description default "The API cannot provide the requested accepted response"]'
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="timeoutError" type="string" use="OPTIONAL"
+				displayName="408 Request Timeout"
+				defaultValue='#[error.description default "The request to the server has been timed-out"]'
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="unsupportedMediaTypeError" type="string"
+				displayName="415 Unsupported Media Type" use="OPTIONAL"
+				defaultValue='#[error.description default "Media type not supported"]'
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="tooManyRequestsError" type="string"
+				use="OPTIONAL" displayName="429 Too Many Requests"
+				defaultValue='#[error.description default "You have made too many requests to the server"]'
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="expressionError" type="string"
+				use="OPTIONAL" displayName="500 Dataweave Expression Error"
+				defaultValue="Error with data transformation.  See log for details."
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="serverError" type="string" use="OPTIONAL"
+				displayName="500 Internal Server Error (Default)"
+				defaultValue='#[error.description default "There is a server issue"]'
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="methodNotImplementedError" type="string"
+				displayName="501 Not Implemented" use="OPTIONAL"
+				defaultValue='#[error.description default "The operation has not been implemented"]'
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="connectivityError" type="string"
+				use="OPTIONAL" displayName="503 Service Unavailable"
+				defaultValue='#[error.description default "Unable to access the system at this time"]'
+				role="BEHAVIOUR" tab="Common Errors"></parameter>
+
+			<parameter name="customErrorDefinition" type="string"
+				use="OPTIONAL" displayName="Custom Error Definitions File"
+				summary="Provide the local path to the error definitions file that defines the custom errors.  The file must be Dataweave format (.dwl)."
+				role="BEHAVIOUR" tab="Custom Errors"></parameter>
+		</parameters>
+
+		<body>
+			<!-- Set the current error type for all lookups. -->
+			<mule:set-variable
+				value='#[if (!isBlank(vars.error.errorType.namespace)) vars.error.errorType.namespace ++ ":" ++ (vars.error.errorType.identifier default "") else null]'
+				doc:name="Error type of current error." variableName="errorType" />
+
+			<mule:logger level="DEBUG"
+				category="api-error-handler-module"
+				message='#["Current error type: " ++ vars.errorType default "" ++ "  Error Description: " ++ error.description default ""]' />
+
+			<!-- Load the default error definitions. -->
+			<mule:set-variable
+				value="#[${file::errors/defaultErrors.dwl}]"
+				doc:name="Default Errors" variableName="defaultErrorTypes" />
+
+			<!-- Dynamically load the custom error definitions. Ignore any issues with loading. -->
+			<mule:choice doc:name="Custom Error Types Provided?">
+				<mule:when
+					expression="#[!isBlank(vars.customErrorDefinition)]">
+					<mule:try doc:name="Try">
+						<ee:dynamic-evaluate
+							expression='#[readUrl("classpath://" ++ vars.customErrorDefinition, "text/plain")]'
+							target="customErrorTypes" />
+						<mule:error-handler>
+							<mule:on-error-continue
+								enableNotifications="false" logException="false"
+								doc:name="On Error Continue">
+								<mule:logger level="DEBUG"
+									category="api-error-handler-module"
+									message='#["There was an issue loading the custom error types file " ++ vars.customErrorDefinition ++ ": " ++ error.description default ""]' />
+							</mule:on-error-continue>
+						</mule:error-handler>
+					</mule:try>
+				</mule:when>
+			</mule:choice>
+
+			<ee:transform doc:name="Set Error Definition">
+				<ee:variables>
+					<ee:set-variable variableName="errorDef"><![CDATA[%dw 2.0
+import mergeWith from dw::core::Objects
+output application/java
+var errorType = vars.errorType as String
+var defaultErrors = vars.defaultErrorTypes
+var customErrors = vars.customErrorTypes default {}
+var allErrors = defaultErrors mergeWith customErrors
+var defaultError = {
+      errorCode: 500,
+      errorMessage: "Internal Server Error",
+      errorDescription: vars.serverError default "There is a server issue"
+   }
+---
+allErrors[errorType] default defaultError
+]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+
+			<ee:transform doc:name="Set payload to error type">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+    error: {
+	    message: vars.errorDef.errorMessage,
+	    details: vars.errorDef.errorDescription
+    }
+}
+]]></ee:set-payload>
+					<ee:set-attributes><![CDATA[%dw 2.0
+output application/java
+var errorCode = vars.errorDef.errorCode
+---
+{
+	httpStatus: errorCode
+}]]></ee:set-attributes>
+				</ee:message>
+			</ee:transform>
+			<mule:logger level="DEBUG"
+				category="api-error-handler-module"
+				message='#["Error HTTP Status: " ++ attributes.httpStatus default "" ++ "  Error Response: " ++ write(payload, "application/json") default ""]' />
+		</body>
+		<output type="OutputResponseType"></output>
+		<output-attributes type="OutputAttributesType"></output-attributes>
+	</operation>
+
+
+</module>

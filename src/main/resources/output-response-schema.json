@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "errors":{
+      "type": "object",
+      "properties": {
+        "message": {
+          "type":"string"
+        },
+        "details":{
+          "type":"string"
+        }        
+      }
+    }
+  },
+  "additionalProperties": false
+}
