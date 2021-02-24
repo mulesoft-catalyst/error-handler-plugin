@@ -244,4 +244,4 @@ It takes the parameters below.
 [http-rfc-7231-6.5]: https://tools.ietf.org/html/rfc7231#section-6.5
 [http-rfc-7231-6.6]: https://tools.ietf.org/html/rfc7231#section-6.6
 [dataweave-file]: https://docs.mulesoft.com/mule-runtime/4.3/dataweave-language-introduction#dwl_file
-[mule-sdk]: https://docs.mulesoft.com/mule-sdk/1.1/xml-sdk
+[xml-sdk]: https://docs.mulesoft.com/mule-sdk/1.1/xml-sdk
