@@ -239,7 +239,7 @@ It takes the parameters below.
 
 # Synchronizing Updates
 This repository corresponds with the [Error Plugin for Mule public repo][handler-plugin].  Desired changes from that repo can be merged into this periodically if desired.  Make sure to use the branch that corresponds to the latest mule version.
-Significant changes were made to this for flexibility and adherence to HTTP RFC 7231 responses, so syncying is likely not needed or desired.
+Significant changes were made to this for flexibility and adherence to HTTP RFC 7231 responses, so syncing is likely not needed or desired.
 
 [handler-plugin]: https://github.com/mulesoft-catalyst/error-handler-plugin
 [mule-error]: https://docs.mulesoft.com/mule-runtime/4.3/mule-error-concept
