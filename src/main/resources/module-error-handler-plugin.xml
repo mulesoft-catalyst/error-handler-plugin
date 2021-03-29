@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module name="API Error Handler"
-	prefix="common-error-handler" category="SELECT"
+	prefix="api-error-handler" category="SELECT"
 	doc:description="This module relies entirely in runtime provided components (no other Plugin dependencies)"
 	xmlns="http://www.mulesoft.org/schema/mule/module"
 	xmlns:mule="http://www.mulesoft.org/schema/mule/core"
@@ -101,7 +101,7 @@
 				doc:name="Error type of current error." variableName="errorType" />
 
 			<mule:logger level="DEBUG"
-				category="common-error-handler"
+				category="api-error-handler"
 				message='#[output aplication/java --- "Current error type: " ++ (vars.errorType default "") ++ "  Error Description: " ++ (vars.error.description default "")]' />
 
 			<!-- Load the default error definitions. -->
@@ -123,7 +123,7 @@
 								doc:name="On Error Continue">
 								<!-- Directly use error.description here instead of vars; this is an internal error. -->
 								<mule:logger level="DEBUG"
-									category="common-error-handler"
+									category="api-error-handler"
 									message='#["There was an issue loading the custom error types file " ++ vars.customErrorDefinition ++ ": " ++ error.description default ""]' />
 							</mule:on-error-continue>
 						</mule:error-handler>
@@ -179,7 +179,7 @@ var status = if (valid) vars.errorDef.status else 500
 				</ee:message>
 			</ee:transform>
 			<mule:logger level="DEBUG"
-				category="common-error-handler"
+				category="api-error-handler"
 				message='#[output application/java --- "Error HTTP Status: " ++ attributes.httpStatus default "" ++ "  Error Response: " ++ write(payload, "application/json") default ""]' />
 		</body>
 		<output type="OutputResponseType"></output>

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ORG_ID_TOKEN</groupId>
-	<artifactId>common-error-handler</artifactId>
+	<artifactId>api-error-handler</artifactId>
 	<version>5.0.0</version>
 	<packaging>mule-extension</packaging>
 

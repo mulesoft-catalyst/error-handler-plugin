@@ -55,7 +55,7 @@ The groupId value must be the appropriate Anypoint Org Id where the module is de
 ```
 <dependency>
     <groupId>${anypoint-org-id}</groupId>
-    <artifactId>common-error-handler</artifactId>
+    <artifactId>api-error-handler</artifactId>
     <version>${error-handler.module.version}</version>
 </dependency>
 ```
@@ -92,7 +92,7 @@ Drag from palette into error handler to transform error into API response.
 **Module XML**
 
 ```
-<common-error-handler:process-error doc:name="Process Error"
+<api-error-handler:process-error doc:name="Process Error"
 	customErrorDefinition="errors/customErrors.dwl" />
 ```
 
@@ -104,7 +104,7 @@ Drag from palette into error handler to transform error into API response.
 		enableNotifications="true"
 		logException="true"
 		doc:name="On Error Propagate">
-		<common-error-handler:on-error
+		<api-error-handler:on-error
 			doc:name="Process Error"
 			customErrorDefinition="errors/customErrors.dwl" />
 		<json-logger:logger
