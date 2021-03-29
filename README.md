@@ -6,10 +6,11 @@ All APIKit and HTTP exceptions are handled by the module and can be customized i
 
 The error is converted by this module into the items below.
 
-- **JSON response body**
-  - **Error message**:  *Reason phrase* from the [HTTP RFC 7231 Response Status Codes][http-rfc-7231-6] for [Client Error 4xx][http-rfc-7231-6.5] and [Server Error 5xx][http-rfc-7231-6.6].
-  - **Error details**: This can be any text description but is usually the Mule `error.description` or developer-defined DataWeave or text.
 - **HTTP status code**: *Status code* from the [HTTP RFC 7231 Response Status Codes][http-rfc-7231-6] for [Client Error 4xx][http-rfc-7231-6.5] and [Server Error 5xx][http-rfc-7231-6.6].
+- **JSON response body**
+  - **Error status**:  *Status code*; see above.
+  - **Error reason**:  *Reason phrase* from the [HTTP RFC 7231 Response Status Codes][http-rfc-7231-6] for [Client Error 4xx][http-rfc-7231-6.5] and [Server Error 5xx][http-rfc-7231-6.6].
+  - **Error message**: This can be any text description or even an object.  It is usually the Mule `error.description` or developer-defined DataWeave or text.
 
 A JSON body response example is shown below.
 
@@ -17,8 +18,9 @@ A JSON body response example is shown below.
 ```
 {
   "error": {
-      "message": "Bad Request",
-      "details": "Error validating response"
+	  "status": 400,
+      "reason": "Bad Request",
+      "message": "Error validating response"
   }
 }
 ```
@@ -37,6 +39,7 @@ This module is derived from the [Error Plugin for Mule][handler-plugin].  They o
 - Un-clutter exceptions both in UI and XML
 - Compatible with `on-error-propagate` and  `on-error-continue` error handlers.
 - No specific error type is required for this module. It can parse any error types.
+- Can provide strings, arrays, or objects in the `message` response field.
 
 # Installation
 
@@ -52,8 +55,8 @@ The groupId value must be the appropriate Anypoint Org Id where the module is de
 ```
 <dependency>
     <groupId>${anypoint-org-id}</groupId>
-    <artifactId>api-error-handler-module</artifactId>
-    <version>${api-error-handler-module.version}</version>
+    <artifactId>common-error-handler</artifactId>
+    <version>${error-handler.module.version}</version>
 </dependency>
 ```
 
@@ -89,7 +92,7 @@ Drag from palette into error handler to transform error into API response.
 **Module XML**
 
 ```
-<api-error-handler-module:process-error doc:name="Process Error"
+<common-error-handler:process-error doc:name="Process Error"
 	customErrorDefinition="errors/customErrors.dwl" />
 ```
 
@@ -101,7 +104,7 @@ Drag from palette into error handler to transform error into API response.
 		enableNotifications="true"
 		logException="true"
 		doc:name="On Error Propagate">
-		<api-error-handler-module:on-error
+		<common-error-handler:on-error
 			doc:name="Process Error"
 			customErrorDefinition="errors/customErrors.dwl" />
 		<json-logger:logger
@@ -145,9 +148,9 @@ The custom errors must be an *object of objects* with the fields below.
 
 - Key: [Mule error type][mule-error-types] used to match.  Example: `HTTP:BAD_REQUEST`
 - Value: (object)
-	- `errorCode`: HTTP status code to send in response.
-	- `errorMessage`: Error reason phrase to send in JSON body response.
-	- `errorDescription`: Error details to send in JSON body response.
+	- `status`: HTTP status code to send in response.
+	- `reason`: Error reason phrase to send in JSON body response.
+	- `message`: Error details to send in JSON body response.
 
 DataWeave script is allowed in each field value.  Unlike the DataWeave in the module's fields, the DataWeave script in the custom errors file is executed *inside the context* of the error handler module.  This means it can **only** access content provided via the module's fields, which are accessed via the `vars` object.  To access the error object from this file, you would need to use `vars.error` instead of simply `error`. 
 
@@ -170,9 +173,9 @@ var previousError = error.exception.errorMessage.typedValue.error.details
 	This catches custom service unauthorized error from app and formats the response accordingly.
 	*/
 	"APP:UNAUTHORIZED": {
-		"errorCode":401,
-		"errorMessage": "Unauthorized",
-		"errorDescription": error.description default "There was an issue with authorization."
+		"status":401,
+		"reason": "Unauthorized",
+		"message": error.description default "There was an issue with authorization."
 	},
 	
 	/*
@@ -180,9 +183,9 @@ var previousError = error.exception.errorMessage.typedValue.error.details
 	This catches custom service unavailable error from app and formats the response accordingly.
 	*/
 	"APP:SERVICE_UNAVAILABLE": {
-		"errorCode":503,
-		"errorMessage": "Service Unavailable",
-		"errorDescription": error.description default "There was an issue connecting to the system."
+		"status":503,
+		"reason": "Service Unavailable",
+		"message": error.description default "There was an issue connecting to the system."
 	},
 
 	/*
@@ -193,9 +196,9 @@ var previousError = error.exception.errorMessage.typedValue.error.details
 	This useful for process or experience APIs to pass through system API errors.
 	*/
 	"HTTP:INTERNAL_SERVER_ERROR": {
-		"errorCode":500,
-		"errorMessage": "Internal Server Error",
-		"errorDescription": (if (!isEmpty(previousError)) previousError else error.description) default "Internal Server Error."
+		"status":500,
+		"reason": "Internal Server Error",
+		"message": (if (!isEmpty(previousError)) previousError else error.description) default "Internal Server Error."
 	}
 }
 ```
@@ -212,6 +215,12 @@ All Mule API's should have the same error response body format.  It is best prac
 ```
 (error.exception.errorMessage.typedValue.error.details default error.description) default p("property.with.default.error.message")
 ```
+
+## List of Errors
+The `message` field in the response body can be of any type.  A string is recommended, but this can also be an array of errors if needed to show history of errors across APIs.  To create an array of errors, follow the steps below.
+
+- Create the list of errors with DataWeave in the `message` field contained in the *Custom Error* file described in a previous section.
+- Log the error in your flow while handling the array so it logs appropriately.
 
 # Building
 When building this module, the required dependencies are provided by the standard MuleSoft maven repositories. Standard maven build commands work without any additional parameters required.  This is a [Mule XML SDK][xml-sdk] module.  Use `build.sh` as described under **Deploying** below to build the module.

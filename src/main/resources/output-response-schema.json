@@ -1,13 +1,16 @@
 {
   "type": "object",
   "properties": {
-    "errors":{
+    "error":{
       "type": "object",
       "properties": {
-        "message": {
+        "status": {
+          "type":"integer"
+        },
+        "reason": {
           "type":"string"
         },
-        "details":{
+        "message":{
           "type":"string"
         }        
       }

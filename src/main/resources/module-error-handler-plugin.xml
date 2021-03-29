@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module name="API Error Handler"
-	prefix="api-error-handler-module" category="SELECT"
+	prefix="common-error-handler" category="SELECT"
 	doc:description="This module relies entirely in runtime provided components (no other Plugin dependencies)"
 	xmlns="http://www.mulesoft.org/schema/mule/module"
 	xmlns:mule="http://www.mulesoft.org/schema/mule/core"
@@ -101,8 +101,8 @@
 				doc:name="Error type of current error." variableName="errorType" />
 
 			<mule:logger level="DEBUG"
-				category="api-error-handler-module"
-				message='#["Current error type: " ++ vars.errorType default "" ++ "  Error Description: " ++ error.description default ""]' />
+				category="common-error-handler"
+				message='#[output aplication/java --- "Current error type: " ++ (vars.errorType default "") ++ "  Error Description: " ++ (vars.error.description default "")]' />
 
 			<!-- Load the default error definitions. -->
 			<mule:set-variable
@@ -121,8 +121,9 @@
 							<mule:on-error-continue
 								enableNotifications="false" logException="false"
 								doc:name="On Error Continue">
+								<!-- Directly use error.description here instead of vars; this is an internal error. -->
 								<mule:logger level="DEBUG"
-									category="api-error-handler-module"
+									category="common-error-handler"
 									message='#["There was an issue loading the custom error types file " ++ vars.customErrorDefinition ++ ": " ++ error.description default ""]' />
 							</mule:on-error-continue>
 						</mule:error-handler>
@@ -139,13 +140,8 @@ var errorType = vars.errorType as String
 var defaultErrors = vars.defaultErrorTypes
 var customErrors = vars.customErrorTypes default {}
 var allErrors = defaultErrors mergeWith customErrors
-var defaultError = {
-      errorCode: 500,
-      errorMessage: "Internal Server Error",
-      errorDescription: vars.serverError default "There is a server issue"
-   }
 ---
-allErrors[errorType] default defaultError
+allErrors[errorType]
 ]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
@@ -154,26 +150,37 @@ allErrors[errorType] default defaultError
 				<ee:message>
 					<ee:set-payload><![CDATA[%dw 2.0
 output application/json
+var defaultError = {
+      status: 500,
+      reason: "Internal Server Error",
+      message: vars.serverError default "There is a server issue"
+   }
+var valid = if ( (!isEmpty(vars.errorDef.status)) and (!isEmpty(vars.errorDef.reason)) ) true else false
+var status = if (valid) vars.errorDef.status else defaultError.status
+var reason = if (valid) vars.errorDef.reason else defaultError.reason
+var message = if (valid) vars.errorDef.message else defaultError.message
 ---
 {
     error: {
-	    message: vars.errorDef.errorMessage,
-	    details: vars.errorDef.errorDescription
+    	status: status as Number,
+	    reason: reason as String,
+	    message: message default ""
     }
 }
 ]]></ee:set-payload>
 					<ee:set-attributes><![CDATA[%dw 2.0
 output application/java
-var errorCode = vars.errorDef.errorCode
+var valid = if ( (!isEmpty(vars.errorDef.status)) and (!isEmpty(vars.errorDef.reason)) ) true else false
+var status = if (valid) vars.errorDef.status else 500
 ---
 {
-	httpStatus: errorCode
+	httpStatus: status as Number
 }]]></ee:set-attributes>
 				</ee:message>
 			</ee:transform>
 			<mule:logger level="DEBUG"
-				category="api-error-handler-module"
-				message='#["Error HTTP Status: " ++ attributes.httpStatus default "" ++ "  Error Response: " ++ write(payload, "application/json") default ""]' />
+				category="common-error-handler"
+				message='#[output application/java --- "Error HTTP Status: " ++ attributes.httpStatus default "" ++ "  Error Response: " ++ write(payload, "application/json") default ""]' />
 		</body>
 		<output type="OutputResponseType"></output>
 		<output-attributes type="OutputAttributesType"></output-attributes>

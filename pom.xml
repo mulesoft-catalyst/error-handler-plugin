@@ -3,8 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ORG_ID_TOKEN</groupId>
-	<artifactId>api-error-handler-module</artifactId>
-	<version>1.0.0</version>
+	<artifactId>common-error-handler</artifactId>
+	<version>5.0.0</version>
 	<packaging>mule-extension</packaging>
 
 	<name>API Error Handler</name>
@@ -51,7 +51,7 @@
 	<distributionManagement>
 		<!-- Target Anypoint Organization Repository -->
 		<repository>
-			<id>anypoint-exchange</id>
+			<id>Exchange2</id>
 			<name>Anypoint Exchange</name>
 			<url>https://maven.anypoint.mulesoft.com/api/v1/organizations/ORG_ID_TOKEN/maven</url>
 			<layout>default</layout>

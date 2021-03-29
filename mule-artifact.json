@@ -4,7 +4,7 @@
 		"id": "xml-based",
 		"attributes": {
 			"validate-xml": false,
-			"resource-xml": "module-api-error-handler.xml"
+			"resource-xml": "module-error-handler-plugin.xml"
 		}
 	},
 	"name": "API Error Handler",

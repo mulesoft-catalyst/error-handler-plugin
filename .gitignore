@@ -21,6 +21,7 @@ tmp/**/*
 *.swp
 *~.nib
 local.properties
+.externalToolBuilders/
 .settings/
 .loadpath
 .project
@@ -46,3 +47,22 @@ target/
 .mule/**/*
 .DS_Store
 velocity.log
+
+# Log files #
+/*.log
+/*.log.*
+
+# Output folders #
+/test-output/
+
+# IntelliJ Idea files #
+.idea
+.idea/
+*.iml
+out/
+.idea_modules/
+
+# OS files #
+.DS_Store
+.svn
+._*
