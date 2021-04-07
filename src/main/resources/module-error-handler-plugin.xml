@@ -122,7 +122,7 @@
 								enableNotifications="false" logException="false"
 								doc:name="On Error Continue">
 								<!-- Directly use error.description here instead of vars; this is an internal error. -->
-								<mule:logger level="DEBUG"
+								<mule:logger level="ERROR"
 									category="api-error-handler"
 									message='#["There was an issue loading the custom error types file " ++ vars.customErrorDefinition ++ ": " ++ error.description default ""]' />
 							</mule:on-error-continue>

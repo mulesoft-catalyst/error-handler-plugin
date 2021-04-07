@@ -15,10 +15,11 @@ The error is converted by this module into the items below.
 A JSON body response example is shown below.
 
 **StatusCode: 400**
+
 ```
 {
   "error": {
-	  "status": 400,
+      "status": 400,
       "reason": "Bad Request",
       "message": "Error validating response"
   }
@@ -32,6 +33,7 @@ This is compatible with Mule 4.x.x runtimes.
 This module is derived from the [Error Plugin for Mule][handler-plugin].  They offer a similar feature-set.  However, this version focuses on flexibility for custom scripting on each error type and removing custom error definitions from the UI.
 
 ## Features
+
 - Converts all errors into proper API JSON request body and HTTP status code.
 - Customize error descriptions for common API errors for HTTP & APIKIT.
 - Customize error description for the default error when no errors matched: 500 - Internal Server Error.
@@ -72,16 +74,16 @@ The groupId value must be the appropriate Anypoint Org Id where the module is de
 Add `vars.httpStatus` to the listener's `http:response` and `http:error-response` elements. Also make sure that both `http:response` and `http:error-response` elements have the `payload` as their body.
 
 ```
-	<http:response 
-		statusCode="#[vars.httpStatus default 200]">
-	</http:response>
+    <http:response 
+        statusCode="#[vars.httpStatus default 200]">
+    </http:response>
 ```
 
 ```
-	<http:error-response 
-		statusCode="#[vars.httpStatus default 500]">
-		<http:body ><![CDATA[#[payload]]]></http:body>
-	</http:error-response>
+    <http:error-response 
+        statusCode="#[vars.httpStatus default 500]">
+        <http:body ><![CDATA[#[payload]]]></http:body>
+    </http:error-response>
 ```
 
 ## Error Handler Flow
@@ -93,42 +95,42 @@ Drag from palette into error handler to transform error into API response.
 
 ```
 <api-error-handler:process-error doc:name="Process Error"
-	customErrorDefinition="errors/customErrors.dwl" />
+    customErrorDefinition="errors/customErrors.dwl" />
 ```
 
 **Error Handler Flow**
 
 ```
 <error-handler name="error-handler-api">
-	<on-error-propagate
-		enableNotifications="true"
-		logException="true"
-		doc:name="On Error Propagate">
-		<api-error-handler:on-error
-			doc:name="Process Error"
-			customErrorDefinition="errors/customErrors.dwl" />
-		<json-logger:logger
-			doc:name="Log Error"
-			priority="ERROR"
-			tracePoint="ERROR"
-			message='#[write(payload ++ { httpStatus: attributes.httpStatus }, "application/json")]'
-			config-ref="json-logger-config">
-			<json-logger:content ><![CDATA[#[output application/json --- error]]]></json-logger:content>
-		</json-logger:logger>
-		<set-variable
-			value="#[attributes.httpStatus]"
-			doc:name="Set HTTP Status Code"
-			variableName="httpStatus" />
-	</on-error-propagate>
+    <on-error-propagate
+        enableNotifications="true"
+        logException="true"
+        doc:name="On Error Propagate">
+        <api-error-handler:on-error
+            doc:name="Process Error"
+            customErrorDefinition="errors/customErrors.dwl" />
+        <json-logger:logger
+            doc:name="Log Error"
+            priority="ERROR"
+            tracePoint="ERROR"
+            message='#[write(payload ++ { httpStatus: attributes.httpStatus }, "application/json")]'
+            config-ref="json-logger-config">
+            <json-logger:content ><![CDATA[#[output application/json --- error]]]></json-logger:content>
+        </json-logger:logger>
+        <set-variable
+            value="#[attributes.httpStatus]"
+            doc:name="Set HTTP Status Code"
+            variableName="httpStatus" />
+    </on-error-propagate>
 </error-handler>
 ```
 
 # Configuration
 
 ## Common Errors Tab
-**APIKit & HTTP Error Details Customization**
+**APIKit & HTTP Error Message Customization**
 
-Modify the error details for the APIKit and HTTP errors on the *Common Errors* tab.  This field supports dataweave for dynamically generated details.
+Modify the error message for the APIKit and HTTP errors on the *Common Errors* tab.  This field supports dataweave for dynamically generated messages.
 The response status code and error message (phrase) *cannot* be changed for common errors on this tab.
 Additional errors not covered here can be mapped to the same status codes on the *Custom Errors* tab.
 
@@ -148,13 +150,13 @@ The custom errors must be an *object of objects* with the fields below.
 
 - Key: [Mule error type][mule-error-types] used to match.  Example: `HTTP:BAD_REQUEST`
 - Value: (object)
-	- `status`: HTTP status code to send in response.
-	- `reason`: Error reason phrase to send in JSON body response.
-	- `message`: Error details to send in JSON body response.
+    - `status`: HTTP status code to send in response.
+    - `reason`: Error reason phrase to send in JSON body response.
+    - `message`: Error details to send in JSON body response.
 
 DataWeave script is allowed in each field value.  Unlike the DataWeave in the module's fields, the DataWeave script in the custom errors file is executed *inside the context* of the error handler module.  This means it can **only** access content provided via the module's fields, which are accessed via the `vars` object.  To access the error object from this file, you would need to use `vars.error` instead of simply `error`. 
 
-**Custom errors override common errors.**  If you want to override a common error's status or message, and not just the details, you would add an entry for that error in the custom errors file, which will completely override the common error.
+**Custom errors override common errors.**  If you want to override a common error's status or reason, and not just the message, you would add an entry for that error in the custom errors file, which will completely override the common error.
 
 A template custom error file is shown below.  Two custom errors, `APP:...`, and one common error override, `HTTP:...`, are shown.
 
@@ -165,41 +167,41 @@ output application/java
 // Map error parameter in module to local variable to match normal error selector syntax like 'error.description'.
 var error = vars.error
 // Nested error pulled off the Mule error object, which conforms to the API Error Handler responses.
-var previousError = error.exception.errorMessage.typedValue.error.details
+var previousError = error.exception.errorMessage.typedValue.error.message
 ---
 {
-	/*
-	APP 401 Unauthorized
-	This catches custom service unauthorized error from app and formats the response accordingly.
-	*/
-	"APP:UNAUTHORIZED": {
-		"status":401,
-		"reason": "Unauthorized",
-		"message": error.description default "There was an issue with authorization."
-	},
-	
-	/*
-	APP 503 Service Unavailable
-	This catches custom service unavailable error from app and formats the response accordingly.
-	*/
-	"APP:SERVICE_UNAVAILABLE": {
-		"status":503,
-		"reason": "Service Unavailable",
-		"message": error.description default "There was an issue connecting to the system."
-	},
+    /*
+    APP 401 Unauthorized
+    This catches custom service unauthorized error from app and formats the response accordingly.
+    */
+    "APP:UNAUTHORIZED": {
+        "status":401,
+        "reason": "Unauthorized",
+        "message": error.description default "There was an issue with authorization."
+    },
+    
+    /*
+    APP 503 Service Unavailable
+    This catches custom service unavailable error from app and formats the response accordingly.
+    */
+    "APP:SERVICE_UNAVAILABLE": {
+        "status":503,
+        "reason": "Service Unavailable",
+        "message": error.description default "There was an issue connecting to the system."
+    },
 
-	/*
-	HTTP 500 Pass Through
-	This catches HTTP 500 errors and propagates the detailed reason for failure.
-	It uses the error.details field from the response of the HTTP call that failed, which conforms to the API Error Handler responses.
-	If not found, the error.description will be returned, which generally says an internal server error occurred.
-	This useful for process or experience APIs to pass through system API errors.
-	*/
-	"HTTP:INTERNAL_SERVER_ERROR": {
-		"status":500,
-		"reason": "Internal Server Error",
-		"message": (if (!isEmpty(previousError)) previousError else error.description) default "Internal Server Error."
-	}
+    /*
+    HTTP 500 Pass Through
+    This catches HTTP 500 errors and propagates the detailed reason for failure.
+    It uses the error.message field from the response of the HTTP call that failed, which conforms to the API Error Handler responses.
+    If not found, the error.description will be returned, which generally says an internal server error occurred.
+    This useful for process or experience APIs to pass through system API errors.
+    */
+    "HTTP:INTERNAL_SERVER_ERROR": {
+        "status":500,
+        "reason": "Internal Server Error",
+        "message": (if (!isEmpty(previousError)) previousError else error.description) default "Internal Server Error."
+    }
 }
 ```
 
@@ -208,12 +210,12 @@ As mentioned, the error object is only available within the module as `vars.erro
 ## Accessing Nested Errors
 Sometimes connectors generate error responses that are generic and wrap the actual error response from the external system.  In this case, the external system's response is lost and not propagated back to the API's caller.  This happens in certain scenarios with the HTTP and Web Service Consumer connectors.
 
-A common scenario is when a system API generates an error that needs to get propagated back to the caller of the experience or process API.  Using normal error handling, like `error.description`, the SOAP fault or 500 response from the called system is not logged or propagated.  These items are usually nested in the error object here: `error.exception.errorMessage.typedValue`. A developer would add that as script to the standard or custom errors in the error handler module to propagate that error as this API's error.
+A common scenario is when a system API generates an error that needs to get propagated back to the caller of the experience or process API.  Using normal error handling, like `error.description`, the SOAP fault or `500` response from the called system is not logged or propagated.  These items are usually nested in the error object here: `error.exception.errorMessage.typedValue`. A developer would add that as script to the standard or custom errors in the error handler module to propagate that error as this API's error.
 
-All Mule API's should have the same error response body format.  It is best practice to propagate 500 error details from Mule APIs up the API network, unless you have specific requirement not to do that.  The example DataWeave snippet below shows how to access a called Mule API's error details for propagating, assuming that those details are in `error.details` in the response body, which conforms to the API Error Handler responses.  It falls back to the standard error description and then a default error message in properties if any items are not available.
+All Mule API's should have the same error response body format.  It is best practice to propagate `500` error message from Mule APIs up the API network, unless you have specific requirement not to do that.  The example DataWeave snippet below shows how to access a called Mule API's error message for propagating, assuming that those message are in `error.message` in the response body, which conforms to the API Error Handler responses.  It falls back to the standard error description and then a default error message in properties if any items are not available.
 
 ```
-(error.exception.errorMessage.typedValue.error.details default error.description) default p("property.with.default.error.message")
+(error.exception.errorMessage.typedValue.error.message default error.description) default p("property.with.default.error.message")
 ```
 
 ## List of Errors
@@ -231,11 +233,11 @@ The `build.sh` script executes maven commands on the module, including deploying
 
 It takes the parameters below.
 
-	1. Anypoint Org Id: the Anypoint business organization where to deploy the module.
-	2. Build option: the type of build to execute: `local`, `deploy`.
-		- `local`: builds locally (installs dependencies and module in local maven repository)
-		- `deploy`: deploys module to Exchange
-	
+    1. Anypoint Org Id: the Anypoint business organization where to deploy the module.
+    2. Build option: the type of build to execute: `local`, `deploy`.
+        - `local`: builds locally (installs dependencies and module in local maven repository)
+        - `deploy`: deploys module to Exchange
+    
 **Syntax**
 ```
 ./build.sh {Anypoint Org ID} {build option}
