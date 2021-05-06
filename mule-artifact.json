@@ -1,5 +1,5 @@
 {
-	"minMuleVersion": "4.1.5",
+	"minMuleVersion": "4.2.0",
 	"extensionModelLoaderDescriptor": {
 		"id": "xml-based",
 		"attributes": {
@@ -7,14 +7,12 @@
 			"resource-xml": "module-error-handler-plugin.xml"
 		}
 	},
-	"name": "Error Handler Plugin",
+	"name": "API Error Handler",
 	"classLoaderModelLoaderDescriptor": {
 		"id": "mule",
 		"attributes": {
-			"exportedResources": [
-				"dwl/customErrors.dwl",
-				"dwl/defaultErrors.dwl",
-				"dwl/sampleCustomErrors.dwl"
+			"exportedResources": [				
+				"errors/defaultErrors.dwl"
 			]
 		}
 	},
