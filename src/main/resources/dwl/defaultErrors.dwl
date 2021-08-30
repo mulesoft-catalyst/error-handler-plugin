@@ -61,7 +61,7 @@ if ( vars.appendDefaultErrorDescription ) {
 		"errorCode": 405,
 		"reason": "Method Not Allowed",
 		"defaultError": (vars.methodNotAllowedError default "" ++ " " ++ vars.error.description default "") default "The method is not allowed"
-	}
+	},
 	"APIKIT:NOT_ACCEPTABLE": {
 		"errorCode": 406,
 		"reason": "Not Acceptable",
@@ -171,6 +171,16 @@ else
 		"reason": "Not Found",
 		"defaultError": vars.notFoundError default "The API has not been implemented"
 	},
+	"APIKIT:METHOD_NOT_ALLOWED": {
+		"errorCode": 405,
+		"reason": "Method Not Allowed",
+		"defaultError": vars.methodNotAllowedError  default "Resource not found"
+	},
+	"HTTP:METHOD_NOT_ALLOWED": {
+		"errorCode": 405,
+		"reason": "Method Not Allowed",
+		"defaultError": vars.methodNotAllowedError  default "The method is not allowed"
+	},
 	"APIKIT:NOT_ACCEPTABLE": {
 		"errorCode": 406,
 		"reason": "Not Acceptable",
@@ -206,15 +216,15 @@ else
 		"reason": "Bad Connectivity",
 		"defaultError": vars.connectivityError default "You have issues connecting to the system"
 	},
-	"APIKIT:METHOD_NOT_ALLOWED": {
+	"APIKIT:NOT_IMPLEMENTED": {
 		"errorCode": 501,
-		"reason": "Method Not Allowed",
-		"defaultError": vars.methodNotAllowedError default "The method has not been implemented"
+		"reason": "Method Not Implemented",
+		"defaultError": vars.notImplementedError default "The method has not been implemented"
 	},
-	"HTTP:METHOD_NOT_ALLOWED": {
+	"HTTP:NOT_IMPLEMENTED": {
 		"errorCode": 501,
-		"reason": "Method Not Allowed",
-		"defaultError": vars.methodNotAllowedError default "The method has not been implemented"
+		"reason": "Method Not Implemented",
+		"defaultError": vars.notImplementedError default "The method has not been implemented"
 	},
 	"HTTP:TIMEOUT": {
 		"errorCode": 408,
