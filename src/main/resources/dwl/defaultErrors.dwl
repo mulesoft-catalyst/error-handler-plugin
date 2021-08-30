@@ -45,13 +45,23 @@ if ( vars.appendDefaultErrorDescription ) {
 	"HTTP:NOT_FOUND": {
 		"errorCode": 404,
 		"reason": "Not Found",
-		"defaultError": (vars.notFoundError default "" ++ " " ++ vars.error.description default "") default "The API has not been implemented"
+		"defaultError": (vars.notFoundError default "" ++ " " ++ vars.error.description default "") default "Resource not found"
 	},
 	"APIKIT:NOT_FOUND": {
 		"errorCode": 404,
 		"reason": "Not Found",
-		"defaultError": (vars.notFoundError default "" ++ " " ++ vars.error.description default "") default "The API has not been implemented"
+		"defaultError": (vars.notFoundError default "" ++ " " ++ vars.error.description default "") default "Resource not found"
 	},
+	"APIKIT:METHOD_NOT_ALLOWED": {
+		"errorCode": 405,
+		"reason": "Method Not Allowed",
+		"defaultError": (vars.methodNotAllowedError default "" ++ " " ++ vars.error.description default "") default "Resource not found"
+	},
+	"HTTP:METHOD_NOT_ALLOWED": {
+		"errorCode": 405,
+		"reason": "Method Not Allowed",
+		"defaultError": (vars.methodNotAllowedError default "" ++ " " ++ vars.error.description default "") default "The method is not allowed"
+	}
 	"APIKIT:NOT_ACCEPTABLE": {
 		"errorCode": 406,
 		"reason": "Not Acceptable",
@@ -75,27 +85,27 @@ if ( vars.appendDefaultErrorDescription ) {
 	"HTTP:CONNECTIVITY": {
 		"errorCode": 503,
 		"reason": "Bad Connectivity",
-		"defaultError": (vars.connectivityError default "" ++ " " ++ vars.error.description default "") default "You have issues connecting to the system"
+		"defaultError": (vars.connectivityError default "" ++ " " ++ vars.error.description default "") default "The service is unavailable"
 	},
 	"HTTP:RETRY_EXHAUSTED": {
 		"errorCode": 503,
 		"reason": "Bad Connectivity",
-		"defaultError": (vars.connectivityError default "" ++ " " ++ vars.error.description default "") default "You have issues connecting to the system"
+		"defaultError": (vars.connectivityError default "" ++ " " ++ vars.error.description default "") default "The service is unavailable"
 	},
 	"HTTP:SERVICE_UNAVAILABLE": {
 		"errorCode": 503,
 		"reason": "Bad Connectivity",
-		"defaultError": (vars.connectivityError default "" ++ " " ++ vars.error.description default "") default "You have issues connecting to the system"
+		"defaultError": (vars.connectivityError default "" ++ " " ++ vars.error.description default "") default "The service is unavailable"
 	},
-	"APIKIT:METHOD_NOT_ALLOWED": {
+	"APIKIT:NOT_IMPLEMENTED": {
 		"errorCode": 501,
-		"reason": "Method Not Allowed",
-		"defaultError": (vars.methodNotAllowedError default "" ++ " " ++ vars.error.description default "") default "The method has not been implemented"
+		"reason": "Method Not Implemented",
+		"defaultError": (vars.notImplementedError default "" ++ " " ++ vars.error.description default "") default "The method has not been implemented"
 	},
-	"HTTP:METHOD_NOT_ALLOWED": {
+	"HTTP:NOT_IMPLEMENTED": {
 		"errorCode": 501,
-		"reason": "Method Not Allowed",
-		"defaultError": (vars.methodNotAllowedError default "" ++ " " ++ vars.error.description default "") default "The method has not been implemented"
+		"reason": "Method Not Implemented",
+		"defaultError": (vars.notImplementedError default "" ++ " " ++ vars.error.description default "") default "The method has not been implemented"
 	},
 	"HTTP:TIMEOUT": {
 		"errorCode": 408,

@@ -28,7 +28,7 @@
 
 			<parameter name="previousErrors" type="any"
 				displayName="Previous Error"
-				defaultValue="#[vars.errorDetails default []]" role="BEHAVIOUR"
+				defaultValue="#[error.errorMessage.payload default []]" role="BEHAVIOUR"
 				order="1" />
 
 			<parameter name="badRequestError" type="string"
@@ -43,7 +43,12 @@
 
 			<parameter name="notFoundError" type="string"
 				use="OPTIONAL" displayName="404 Not Found"
-				defaultValue="The API has not been implemented" role="BEHAVIOUR"
+				defaultValue="The resource is not found" role="BEHAVIOUR"
+				tab="Common Errors"></parameter>
+				
+			<parameter name="methodNotAllowedError" type="string"
+				use="OPTIONAL" displayName="405 Method Not Allowed"
+				defaultValue="The method is not allowed on the resource" role="BEHAVIOUR"
 				tab="Common Errors"></parameter>
 
 			<parameter name="notAcceptableError" type="string"
@@ -71,14 +76,14 @@
 				defaultValue="There is a server issue" role="BEHAVIOUR"
 				tab="Common Errors"></parameter>
 
-			<parameter name="methodNotAllowedError" type="string"
-				displayName="501 Method Not Allowed" use="OPTIONAL"
+			<parameter name="notImplementedError" type="string"
+				displayName="501 Not Implemented" use="OPTIONAL"
 				defaultValue="The method has not been implemented" role="BEHAVIOUR"
 				tab="Common Errors"></parameter>
 
 			<parameter name="connectivityError" type="string"
 				use="OPTIONAL" displayName="503 Bad Connectivity"
-				defaultValue="You have issues accessing the system" role="BEHAVIOUR"
+				defaultValue="Service unavailable" role="BEHAVIOUR"
 				tab="Common Errors"></parameter>
 
 			<parameter name="appendDefaultErrorDescription"
