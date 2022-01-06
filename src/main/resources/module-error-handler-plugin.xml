@@ -20,7 +20,7 @@
 	<property name="apiVersion" type="any" use="OPTIONAL"
 		displayName="API Version" defaultValue="#[Mule::p('api.version')]" />
 
-	<operation name="on-error" displayName="Process Error">
+	<operation name="handle-error" displayName="Process Error">
 		<parameters>
 
 			<parameter name="error" type="any" defaultValue="#[error]"
