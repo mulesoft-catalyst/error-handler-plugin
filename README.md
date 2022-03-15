@@ -26,9 +26,13 @@ This custom error handler plugin allows a single module to process error message
 On Error
 
 ## Deploying to Exchange
-To deploy to Exchange, run the script named deploy.sh as follows,
+To deploy to Exchange, on Linux systems, run the script named deploy.sh as follows,
 
 `./deploy.sh <YOUR_ORG_ID>`
+
+To deploy to Exchange, on Windows systems, run the script named deploy.ps1 as follows,
+
+`./deploy.ps1 <YOUR_ORG_ID>`
 
 Please ensure that your settings.xml has been configured with the correct Exchange credentials so that the publish can succeed.
 
