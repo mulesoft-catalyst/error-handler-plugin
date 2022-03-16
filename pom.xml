@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ORG_ID_TOKEN</groupId>
-	<artifactId>common-error-handler</artifactId>
-	<version>5.1.0</version>
+	<artifactId>api-error-handler</artifactId>
+	<version>6.0.0</version>
 	<packaging>mule-extension</packaging>
 
-	<name>error-handler-plugin</name>
-	<description>An all-in-one plugin to handle Mule specific errors.</description>
+	<name>API Error Handler</name>
+	<description>Provides standard REST API error responses</description>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
 		<!-- XML SDK properties -->
 		<mule.version>4.3.0</mule.version>
-		<mule.extensions.maven.plugin.version>1.2.0</mule.extensions.maven.plugin.version>
+		<mule.extensions.maven.plugin.version>1.4.0</mule.extensions.maven.plugin.version>
 		<app.runtime>4.3.0</app.runtime>
 	</properties>
 
@@ -28,13 +30,13 @@
 	</distributionManagement>
 
 	<dependencies>
+		<!--Needed to discover the 'xml-based' XmlExtensionLoader for smart connectors -->
 		<dependency>
 			<groupId>org.mule.runtime</groupId>
 			<artifactId>mule-module-extensions-xml-support</artifactId>
-			<version>4.2.0</version>
+			<version>${mule.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
 		<!-- DataWeave -->
 		<dependency>
 			<groupId>com.mulesoft.mule.runtime.modules</groupId>
@@ -42,7 +44,6 @@
 			<version>${mule.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -84,6 +85,5 @@
 			<url>https://repository.mulesoft.org/nexus/content/repositories/releases-ee/</url>
 		</pluginRepository>
 	</pluginRepositories>
-
 
 </project>

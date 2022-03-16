@@ -1,25 +1,3 @@
 {
-	"minMuleVersion": "4.1.5",
-	"extensionModelLoaderDescriptor": {
-		"id": "xml-based",
-		"attributes": {
-			"validate-xml": false,
-			"resource-xml": "module-error-handler-plugin.xml"
-		}
-	},
-	"name": "Error Handler Plugin",
-	"classLoaderModelLoaderDescriptor": {
-		"id": "mule",
-		"attributes": {
-			"exportedResources": [
-				"dwl/customErrors.dwl",
-				"dwl/defaultErrors.dwl",
-				"dwl/sampleCustomErrors.dwl"
-			]
-		}
-	},
-	"bundleDescriptorLoader": {
-		"id": "mule",
-		"attributes": {}
-	}
+  "minMuleVersion": "4.3.0"
 }
