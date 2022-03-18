@@ -1,19 +1,53 @@
-# Git folder #
-/.git/
-
-# Compilation folders #
-/bin/
-/target/
-/build/
-
-# Java compile files #
+# ------------------------------------------------------------------------------ #
+# Java defaults (https://github.com/github/gitignore/blob/master/Java.gitignore) #
+# ------------------------------------------------------------------------------ #
 *.class
 
-# Package files #
+# Package Files #
 *.jar
 *.war
 *.ear
-*.db
+
+# ------------------------------------------------------------------------------------------- #
+# Eclipse-specific (https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore) #
+# ------------------------------------------------------------------------------------------- #
+*.pydevproject
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.externalToolBuilders/
+.settings/
+.loadpath
+.project
+.classpath
+.springBeans
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+
+# --------------- #
+# Studio-specific #
+# --------------- #
+target/
+reports/
+.mule/**
+.mule/**/*
+velocity.log
 
 # Log files #
 /*.log
@@ -22,111 +56,14 @@
 # Output folders #
 /test-output/
 
-# Eclipse files #
-.buildpath
-.classpath
-.cproject
-.externalToolBuilders/
-.launch
-.loadpath
-.metadata
-.project
-.settings/
-bin/**
-tmp/**
-tmp/**/*
-*.tmp
-*.nak
-*.swp
-*~.nib
-*.pydevproject
-local.properties
-/src/main/resources/rebel.xml
-.springBeans
-
 # IntelliJ Idea files #
 .idea
+.idea/
 *.iml
-
-# Windows files #
-Thumbs.db
-Desktop.ini
+out/
+.idea_modules/
 
 # OS files #
 .DS_Store
 .svn
 ._*
-.Spotlight-V100
-.Trashes
-
-# User-specific stuff
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/shelf
-
-# Generated files
-.idea/**/contentModel.xml
-
-# Sensitive or high-churn files
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
-.idea/**/dbnavigator.xml
-
-# Gradle
-.idea/**/gradle.xml
-.idea/**/libraries
-
-# Gradle and Maven with auto-import
-# When using Gradle or Maven with auto-import, you should exclude module files,
-# since they will be recreated, and may cause churn.  Uncomment if using
-# auto-import.
-# .idea/artifacts
-# .idea/compiler.xml
-# .idea/jarRepositories.xml
-# .idea/modules.xml
-# .idea/*.iml
-# .idea/modules
-# *.iml
-# *.ipr
-
-# CMake
-cmake-build-*/
-
-# Mongo Explorer plugin
-.idea/**/mongoSettings.xml
-
-# File-based project format
-*.iws
-
-# IntelliJ
-out/
-
-# mpeltonen/sbt-idea plugin
-.idea_modules/
-
-# JIRA plugin
-atlassian-ide-plugin.xml
-
-# Cursive Clojure plugin
-.idea/replstate.xml
-
-# Crashlytics plugin (for Android Studio and IntelliJ)
-com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
-
-# Editor-based Rest Client
-.idea/httpRequests
-
-# Android studio 3.1+ serialized cache file
-.idea/caches/build_file_checksums.ser
-.dd05820d-ca95-4a87-acec-bd2e190bf491.pom
-.537d0e44-30de-42fa-9981-d8f7b4b4838e.pom
-.909a752d-d0cd-42d2-8c0a-8897c22128a3.pom

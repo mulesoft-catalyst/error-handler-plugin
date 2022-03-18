@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <catalogs xmlns="http://www.mulesoft.org/schema/mule/types">
 
-	<catalog name="ErrorResponseType" format="application/json">
-		<schema format="application/json+schema" location="./error-response-schema.json" />
+	<catalog name="CustomErrorsType" format="application/json">
+		<schema format="application/json+schema" location="./custom-errors-schema.json" />
+	</catalog>
+
+	<catalog name="OutputResponseType" format="application/json">
+		<schema format="application/json+schema" location="./output-response-schema.json" />
 	</catalog>
 
 	<catalog name="OutputAttributesType" format="application/json">
 		<schema format="application/json+schema" location="./output-attribute-schema.json" />
 	</catalog>
-	
-	<!-- <catalog name="CustomErrorTypes" format="application/json">
-		<schema format="application/json+schema" location="./custom-error-schema.json" />
-	</catalog> -->
-
-	<!-- <catalog name="java" format="application/java">
-		<schema format="application/classloader" />
-	</catalog> -->
 </catalogs>

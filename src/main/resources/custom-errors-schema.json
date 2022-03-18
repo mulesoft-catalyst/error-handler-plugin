@@ -1,0 +1,35 @@
+{
+	"type": "object",
+	"title": "Custom Errors",
+	"patternProperties": {
+		".*": {
+			"type": "object",
+			"required": [
+				"code",
+				"reason",
+				"message"
+			],
+			"properties": {
+				"code": {
+					"type": "integer",
+					"title": "Status Code",
+					"examples": [503]
+				},
+				"reason": {
+					"type": "string",
+					"title": "Reason Phrase",
+					"examples": ["Bad Connectivity"]
+				},
+				"message": {
+					"type": ["string","array","object"],
+					"title": "Detailed Error Message",
+					"examples": [
+						"You have issues accessing the system",
+						["You have issues accessing the system", "Unable to connect to https://someurl"]
+					]
+				}
+			}
+		}
+	},
+	"additionalProperties": false
+}
