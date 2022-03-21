@@ -4,7 +4,7 @@
     "error":{
       "type": "object",
       "properties": {
-        "status": {
+        "code": {
           "type":"integer"
         },
         "reason": {
