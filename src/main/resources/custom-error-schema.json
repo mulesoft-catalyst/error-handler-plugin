@@ -1,14 +1,43 @@
 {
-   "type":"object",
-   "properties":{
-      "errorType":{
-         "type":"string"
-      },
-      "errorCode":{
-         "type":"integer"
-      },
-      "errorMessage":{
-         "type":"string"
-      }
-   }
+    "type": "object",
+    "title": "Custom Error",
+    "required": [
+        "ERROR:KEY"
+    ],
+    "properties": {
+        "ERROR:KEY": {
+            "type": "object",
+            "required": [
+                "errorCode",
+                "reason",
+                "defaultError"
+            ],
+            "properties": {
+                "errorCode": {
+                    "type": "integer",
+                    "title": "The Errorcode",
+                    "default": 0,
+                    "examples": [
+                        503
+                    ]
+                },
+                "reason": {
+                    "type": "string",
+                    "title": "The Reason Schema",
+                    "default": "",
+                    "examples": [
+                        "Bad Connectivity"
+                    ]
+                },
+                "defaultError": {
+                    "type": "string",
+                    "title": "The Defaulterror Schema",
+                    "default": "",
+                    "examples": [
+                        "You have issues accessing the system"
+                    ]
+                }
+            }
+        }
+    }
 }

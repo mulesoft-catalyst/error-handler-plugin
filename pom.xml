@@ -1,55 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>70ae4654-16a5-480b-afb1-3d728b24a317</groupId>
+	<groupId>ORG_ID_TOKEN</groupId>
 	<artifactId>common-error-handler</artifactId>
-	<version>3.0.1</version>
+	<version>4.0.0</version>
 	<packaging>mule-extension</packaging>
 
 	<name>error-handler-plugin</name>
-	<description>A Mule extension done with pure Mule DSL</description>
+	<description>An all-in-one plugin to handle Mule specific errors.</description>
 
 	<properties>
 		<!-- XML SDK properties -->
-		<mule.version>4.1.5</mule.version>
-		<mule.extensions.maven.plugin.version>1.1.5</mule.extensions.maven.plugin.version>
-		<munit.version>2.1.3</munit.version>
-		<munit.extensions.maven.plugin.version>1.0.0-BETA</munit.extensions.maven.plugin.version>
-		<munit.input.directory>src/test/munit</munit.input.directory>
-		<munit.output.directory>${basedir}/target/test-mule/munit</munit.output.directory>
-		<maven.source.plugin.version>3.0.1</maven.source.plugin.version>
-		<maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
-		<maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
-		<maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
-		<maven.install.plugin.version>2.5.2</maven.install.plugin.version>
-		<maven.deploy.plugin.version>2.8.2</maven.deploy.plugin.version>
-		<maven.site.plugin.version>3.6.1</maven.site.plugin.version>
-		<maven.javadoc.plugin.version>3.0.1</maven.javadoc.plugin.version>
-		<maven.surefire.plugin.version>2.22.0</maven.surefire.plugin.version>
-		<app.runtime>4.1.5</app.runtime>
-		<mule.module.http.version>1.2.0</mule.module.http.version>
+		<mule.version>4.2.0</mule.version>
+		<mule.extensions.maven.plugin.version>1.2.0</mule.extensions.maven.plugin.version>
+		<app.runtime>4.2.0</app.runtime>
 	</properties>
 
 	<distributionManagement>
 		<repository>
 			<id>Exchange2</id>
 			<name>Mule Repo</name>
-			<url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${groupId}/maven</url>
+			<url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${project.groupId}/maven</url>
 			<layout>default</layout>
 		</repository>
 	</distributionManagement>
 
 
 	<dependencies>
-		<!--Needed to discover the 'xml-based' XmlExtensionLoader for smart connectors -->
 		<dependency>
 			<groupId>org.mule.runtime</groupId>
 			<artifactId>mule-module-extensions-xml-support</artifactId>
-			<version>${mule.version}</version>
+			<version>4.2.0</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<!-- DataWeave -->
 		<dependency>
 			<groupId>com.mulesoft.mule.runtime.modules</groupId>
@@ -57,100 +44,10 @@
 			<version>${mule.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<!--MUnit Dependencies -->
-		<dependency>
-			<groupId>com.mulesoft.munit</groupId>
-			<artifactId>munit-runner</artifactId>
-			<version>${munit.version}</version>
-			<classifier>mule-plugin</classifier>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.mulesoft.munit</groupId>
-			<artifactId>munit-tools</artifactId>
-			<version>2.1.3</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
+
 	</dependencies>
 
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>com.mulesoft.munit</groupId>
-					<artifactId>munit-extensions-maven-plugin</artifactId>
-					<version>${munit.extensions.maven.plugin.version}</version>
-					<executions>
-						<execution>
-							<id>munit-extension-test</id>
-							<phase>integration-test</phase>
-							<goals>
-								<goal>test</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>${maven.resources.plugin.version}</version>
-					<executions>
-						<execution>
-							<id>copy-munit-resources</id>
-							<phase>process-test-resources</phase>
-							<goals>
-								<goal>copy-resources</goal>
-							</goals>
-							<configuration>
-								<outputDirectory>${munit.output.directory}</outputDirectory>
-								<resources>
-									<resource>
-										<directory>${munit.input.directory}</directory>
-										<filtering>true</filtering>
-									</resource>
-								</resources>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				<!-- Maven Plugins -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-clean-plugin</artifactId>
-					<version>${maven.clean.plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>${maven.source.plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>${maven.compiler.plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-install-plugin</artifactId>
-					<version>${maven.install.plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<version>${maven.deploy.plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-site-plugin</artifactId>
-					<version>${maven.site.plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>${maven.javadoc.plugin.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
 			<plugin>
 				<!-- Build plugin for XML SDK extension -->
@@ -159,10 +56,6 @@
 				<version>${mule.extensions.maven.plugin.version}</version>
 				<extensions>true</extensions>
 			</plugin>
-			<plugin>
-				<groupId>com.mulesoft.munit</groupId>
-				<artifactId>munit-extensions-maven-plugin</artifactId>
-			</plugin>
 		</plugins>
 	</build>
 
@@ -170,7 +63,7 @@
 		<repository>
 			<id>mulesoft-releases</id>
 			<name>MuleSoft Releases Repository</name>
-			<url>http://repository.mulesoft.org/releases/</url>
+			<url>https://repository.mulesoft.org/releases/</url>
 			<layout>default</layout>
 		</repository>
 		<repository>
