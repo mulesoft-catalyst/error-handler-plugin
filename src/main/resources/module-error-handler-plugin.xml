@@ -146,10 +146,18 @@
 					<ee:set-attributes><![CDATA[%dw 2.0
 						import * from module_error_handler_plugin::common
 						output application/java
-						var code = getError(vars.errorType, vars.defaultErrors, vars.customErrors default {}).code default 500
+						var error = getError(vars.errorType, vars.defaultErrors, vars.customErrors default {})
+						var code = error.code default 500
+						var message = toString(error.message, "Internal Server Error")
+						var previousMessage = toString(vars.previousError)
+						var description = toString(vars.error.description)
+						
+						// Concatenate current error message, previous error message, and error description without duplicates or empties
+						var log = (([message, previousMessage, description] filter !isEmpty($)) distinctBy $) joinBy " | "				
 						---
 						{
-							httpStatus: code as Number
+							httpStatus: code as Number,
+							errorLog: log
 						}]]>
 					</ee:set-attributes>
 				</ee:message>

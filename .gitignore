@@ -67,3 +67,4 @@ out/
 .DS_Store
 .svn
 ._*
+/bin/
