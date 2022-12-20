@@ -1,4 +1,4 @@
-# API Error Handler
+# API Error Handler Overview
 
 This error handler module processes any errors thrown in a flow and transforms to the correct JSON response body and HTTP status code for an API.
 
@@ -135,11 +135,9 @@ Add `vars.httpStatus` to the listener's `http:response` and `http:error-response
 
 ## Error Handler Flow
 
-1. Drag the *Process Error* operation from Studio's palette into the error handler to transform errors into API response.  Place the module inside an error block: `on-error-continue`.
-2. Set vars.httpStatus = attributes.httpStatus
-3. Log error message: attributes.errorLog
-4. Reference this error handler in the APIkit's main flow to be the top-level error handler for the API.
+Drag the *Process Error* operation from Studio's palette into the error handler to transform errors into API response.  Place the module inside an error block: `on-error-propagate`.  You usually would not use `on-error-continue` since the error handler module generates the API's error response to the caller.
 
+Reference this error handler in the APIkit's main flow to be the top-level error handler for the API.
 
 **Module XML**
 

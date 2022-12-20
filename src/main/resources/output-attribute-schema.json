@@ -3,6 +3,9 @@
   "properties": {
     "httpStatus": {
       "type": "string"
+    },
+    "errorLog": {
+      "type": "string"
     }
   },
   "additionalProperties": false
