@@ -98,7 +98,7 @@
 
 			<parameter name="previousError" type="any" use="OPTIONAL"
 				displayName="Use Previous Error"
-				defaultValue="#[error.exception.errorMessage.typedValue.error.message default '']"
+				defaultValue="#[error.exception.errorMessage.payload.error.message default '']"
 				role="BEHAVIOUR" tab="Advanced" />
 
 		</parameters>
