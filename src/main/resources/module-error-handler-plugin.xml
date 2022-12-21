@@ -99,6 +99,13 @@
 			<parameter name="previousError" type="any" use="OPTIONAL"
 				displayName="Use Previous Error"
 				defaultValue="#[error.exception.errorMessage.payload.error.message default '']"
+				summary="Script to generate the previous error message.  Usually pulled from the external system's response in the error object.  Set empty string to ignore previous errors."
+				role="BEHAVIOUR" tab="Advanced" />
+				
+			<parameter name="responseKey" type="any" use="OPTIONAL"
+				displayName="Response Key Name for Payload"
+				defaultValue="#['error']"
+				summary="The response key name to which to add the error payload.  Set empty string to set the payload as the root element."
 				role="BEHAVIOUR" tab="Advanced" />
 
 		</parameters>
@@ -134,13 +141,18 @@
 						import * from module_error_handler_plugin::common
 						output application/json
 						var error = getError(vars.errorType, vars.defaultErrors, vars.customErrors default {})
-						---
-						{
-							error: error update {
+						var responseKey = vars.responseKey
+						var responseError = error update {
 								// Use the previous error message if it exists, otherwise use the provided message.
 						        case message at .message -> if (!isEmpty(vars.previousError)) vars.previousError else message
-						    }
-						}
+						    } 
+						---
+						if (!isEmpty(responseKey) and (responseKey is String))
+							{
+								(responseKey): responseError
+							}
+						else
+							responseError
 						]]>
 					</ee:set-payload>
 					<ee:set-attributes><![CDATA[%dw 2.0

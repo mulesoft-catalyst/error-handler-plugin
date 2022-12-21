@@ -12,7 +12,7 @@ The error is converted by this module into the items below.
   - **Error reason**:  *Reason phrase* from the [HTTP RFC 7231 Response Status Codes][http-rfc-7231-6] for [Client Error 4xx][http-rfc-7231-6.5] and [Server Error 5xx][http-rfc-7231-6.6].
   - **Error message**: This can be any text description, array, or object.  It is usually the Mule `error.description` or developer-defined dataweave or text.
 
-A JSON body response example is shown below.
+A JSON body response example is shown below.  Note that the top-level field name, `error`, is customizable.
 
 **StatusCode: 400**
 
@@ -332,7 +332,41 @@ The dataweave should resolve to a string but any type is allowed.  The default v
 error.exception.errorMessage.payload.error.message default ''
 ```
 
-**Note: Leave this field empty if you do not want to propagate previous errors.**
+**Set this field to an empty string if you do not want to propagate previous errors.**
+
+### Response Key Name for Payload
+This field allows you to customize the JSON key name where the error payload is set.  This defaults to `error`, which is shown in the examples.  This only supports changing the name of the top-level key; it does not change any other format.  If you want the error payload to be the top-level element in the response, then set this field to empty string.
+
+**Default Response**: error
+```
+{
+  "error": {
+      "code": 400,
+      "reason": "Bad Request",
+      "message": "Error validating response"
+  }
+}
+```
+
+**Custom Response**: errorDetails
+```
+{
+  "errorDetails": {
+      "code": 400,
+      "reason": "Bad Request",
+      "message": "Error validating response"
+  }
+}
+```
+
+**Custom Response**: empty string
+```
+{
+	"code": 400,
+	"reason": "Bad Request",
+	"message": "Error validating response"
+}
+```
 
 ## Error Handling Tips
 
