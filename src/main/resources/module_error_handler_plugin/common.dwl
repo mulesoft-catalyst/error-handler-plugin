@@ -6,14 +6,14 @@
  */
 
 // Downstream error pulled off the Mule error object, which conforms to the API Error Handler responses.
-fun getPreviousErrorMessage(error) = error.exception.errorMessage.typedValue.error.message default ""
+fun getPreviousErrorMessage(error) = if (!isEmpty(error.exception.errorMessage.TypedValue)) error.exception.errorMessage.typedValue.error.message else if(!isEmpty(error.exception)) error.exception.message else ''
 
 /*
  *  Get the error type as a String
  */
-fun getErrorTypeAsString(errorType) = 
+fun getErrorTypeAsString(errorType) =
     if (!isBlank(errorType.namespace))
-        errorType.namespace ++ ":" ++ (errorType.identifier default "") 
+        errorType.namespace ++ ":" ++ (errorType.identifier default "")
     else
         "UNKNOWN"
 
@@ -21,7 +21,7 @@ fun getErrorTypeAsString(errorType) =
  * Get the proper error from the merged default and custom error lists.  Provide a standard error if none found.
  */
 fun getError(errorType, defaultErrors, customErrors = {}) = do {
-	import mergeWith from dw::core::Objects
+    import mergeWith from dw::core::Objects
     var errorList = (defaultErrors mergeWith (customErrors default {}))
     var foundError = errorList[errorType]
     var error = if ( !isEmpty(foundError) ) foundError else errorList["UNKNOWN"]

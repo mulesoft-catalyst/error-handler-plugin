@@ -4,7 +4,7 @@
 
 	<groupId>ORG_ID_TOKEN</groupId>
 	<artifactId>api-error-handler</artifactId>
-	<version>6.1.0</version>
+	<version>6.1.1</version>
 	<packaging>mule-extension</packaging>
 
 	<name>API Error Handler</name>

@@ -8,9 +8,9 @@
 	xmlns:core="http://www.mulesoft.org/schema/mule/core"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
-		   http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+		   http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
            http://www.mulesoft.org/schema/mule/module http://www.mulesoft.org/schema/mule/module/current/mule-module.xsd
-           http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd  
+           http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
            http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
 	<operation name="process-error" displayName="Process Error">
@@ -98,10 +98,10 @@
 
 			<parameter name="previousError" type="any" use="OPTIONAL"
 				displayName="Use Previous Error"
-				defaultValue="#[error.exception.errorMessage.payload.error.message default '']"
+				defaultValue="#[if (!isEmpty(error.exception.errorMessage.TypedValue)) error.exception.errorMessage.typedValue.error.message else if(!isEmpty(error.exception)) error.exception.message else '']"
 				summary="Script to generate the previous error message.  Usually pulled from the external system's response in the error object.  Set empty string to ignore previous errors."
 				role="BEHAVIOUR" tab="Advanced" />
-				
+
 			<parameter name="responseKey" type="any" use="OPTIONAL"
 				displayName="Response Key Name for Payload"
 				defaultValue="#['error']"
@@ -145,7 +145,7 @@
 						var responseError = error update {
 								// Use the previous error message if it exists, otherwise use the provided message.
 						        case message at .message -> if (!isEmpty(vars.previousError)) vars.previousError else message
-						    } 
+						    }
 						---
 						if (!isEmpty(responseKey) and (responseKey is String))
 							{
@@ -163,9 +163,9 @@
 						var message = toString(error.message, "Internal Server Error")
 						var previousMessage = toString(vars.previousError)
 						var description = toString(vars.error.description)
-						
+
 						// Concatenate current error message, previous error message, and error description without duplicates or empties
-						var log = (([message, previousMessage, description] filter !isEmpty($)) distinctBy $) joinBy " | "				
+						var log = (([message, previousMessage, description] filter !isEmpty($)) distinctBy $) joinBy " | "
 						---
 						{
 							httpStatus: code as Number,
@@ -174,7 +174,7 @@
 					</ee:set-attributes>
 				</ee:message>
 			</ee:transform>
-			
+
 			<mule:logger level="DEBUG"
 				category="org.mulesoft.modules.errorhandler"
 				message='#[output application/java --- "Error HTTP Status: " ++ attributes.httpStatus default "" ++ "  Error Response: " ++ write(payload, "application/json") default ""]' />
