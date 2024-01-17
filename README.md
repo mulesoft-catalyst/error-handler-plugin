@@ -1,6 +1,8 @@
 # API Error Handler
 
-This error handler module processes any errors thrown in a flow and transforms to the correct JSON response body and HTTP status code for an API.
+The error handler module processes any errors thrown in a flow and transforms to the correct JSON response body and HTTP status code for an API.
+
+*This requires the [MuleSoft Enterprise Maven Repository][mule-ee] to compile and use.*
 
 All APIKit and HTTP exceptions are handled by the module and can be customized in the *Common Errors* tab.  Additional error definitions can be added via dataweave in the *Custom Errors* tab.
 
@@ -465,6 +467,7 @@ It takes the parameters below.
 ./build.sh 43ae201-c97b-4665-9310-e3ac89ce1c28 deploy
 ```
 
+[mule-ee]: https://docs.mulesoft.com/mule-runtime/latest/maven-reference#configure-mulesoft-enterprise-repository
 [mule-error]: https://docs.mulesoft.com/mule-runtime/4.4/mule-error-concept
 [mule-error-types]: https://docs.mulesoft.com/mule-runtime/4.4/mule-error-concept#error_types
 [http-rfc-7231-6]: https://tools.ietf.org/html/rfc7231#section-6
