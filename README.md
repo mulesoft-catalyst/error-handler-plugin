@@ -108,6 +108,7 @@ The groupId value must be the appropriate Anypoint Org Id where the module is de
     <groupId>${groupId}</groupId>
     <artifactId>api-error-handler</artifactId>
     <version>${error-handler.module.version}</version>
+    <classifier>mule-plugin</classifier>
 </dependency>
 ```
 
@@ -176,8 +177,7 @@ An example of the full error handler flow is shown below.  This example uses the
         doc:name="On Error Continue">
         <module-error-handler-plugin:process-error
             doc:name="Process Error"
-            doc:id="ca10a245-319b-40c4-b6af-7de5c2ca83de"
-            customErrorDefinition="errors/customErrors.dwl" />
+            doc:id="ca10a245-319b-40c4-b6af-7de5c2ca83de" />
         <set-variable
             variableName="httpStatus" 
             value="#[attributes.httpStatus]"
@@ -236,7 +236,7 @@ The custom errors must be an *object of objects* with the fields below.
     - `reason`: Error reason phrase to send in JSON body response.  This is a string.
     - `message`: Error details to send in JSON body response.  A string is preferred for this field, but any type is allowed.
 
-dataweave script is allowed in each field value.  To access the error object in this definition, you use `error` as normal. 
+Dataweave script is allowed in each field value.  To access the error object in this definition, you use `error` as normal. 
 
 **Custom errors override common errors.**  If you want to override a common error's status or reason, and not just the message, you would add an entry for that error in the custom errors definition, which will completely override the common error.
 
@@ -247,13 +247,35 @@ A template custom error file, [examples/customErrors.dwl](./examples/customError
 - Unknown error handler: `MULE:UNKNOWN`.  This is recommended when you want to propagate message and error code from non-standard errors, like `495`.
 
 ```
+/**
+ * This provides custom error handling for the API Error Handler.
+ */
+ 
 %dw 2.0
 output application/json
-
 import * from module_error_handler_plugin::common
 
-// Previous error nested in the Mule error object, which conforms to the API Error Handler responses.
-var previousError = getPreviousErrorMessage(error)
+/**
+ * Previous error nested in the Mule error object.
+ * Provides the entire payload of the previous error as a String.
+ * Handles the main Mule Error formats to get nested errors:
+ * - Composite modules/scopes, like Scatter-Gather, Parallel-Foreach, Group Validation Module
+ * - Until-Successful
+ * - Standard Error, like Raise Error, Foreach, and most connectors and errors.
+ */
+var previousError = do {
+    var nested = [
+        error.childErrors..errorMessage.payload,        // Composite
+        error.suppressedErrors..errorMessage.payload,   // Until-Successful
+        error.exception.errorMessage.typedValue         // Standard Error: must go last because it has content if this is one of the other types of errors
+    ] dw::core::Arrays::firstWith !isEmpty($)
+    ---
+    if (nested is Array)
+        toString(nested map (toString($)) distinctBy $)
+    else
+        toString(nested)
+}
+
 ---
 {
     /*
@@ -307,7 +329,6 @@ var previousError = getPreviousErrorMessage(error)
 ### Common Functions
 There are some common functions provided by the module that you can use in your custom errors definition.  They are imported by `import * from module_error_handler_plugin::common`.
 
-- `getPreviousErrorMessage`: Gets the downstream API's error message text when an error is returned from that API.  This should only used when the called API uses this same error module.  Any other response structure must be manually handled by dataweave.  It takes the error object as a parameter.  This is a great way to propagate errors up the API stack without losing the original error.
 - `getErrorTypeAsString`: Gets the string for the current Mule error type.  This corresponds to the *keys* in the custom error object.  Example: `HTTP:INTERNAL_SERVER_ERROR`.
 - `toString`: Converts any type to a string.  If not a string, it uses write() with Java format.  If empty, then returns empty string or the value specified in the second parameter.
 
@@ -324,17 +345,13 @@ The error object definition takes the standard [Mule Error][mule-error] by defau
 ### Use Previous Error
 Connectors usually generate error responses their own error responses and wrap the actual error response from the external system in the error object. This causes the external system's response to be lost and not propagated back to the API's caller.  The previous error feature allows the module to retrieve the external system's error response from the error object and use that as the error message.
 
-A common scenario is when a system API generates an error that needs to get propagated back to the caller of the experience or process API.  Using normal error handling, like `error.description`, the SOAP fault or `500` response from the called system is not logged or propagated.  These items are nested in the error object here: `error.exception.errorMessage.payload` and `error.exception.errorMessage.attributes`.
+A common scenario is when a system API generates an error that needs to get propagated back to the caller of the experience or process API.  Using normal error handling, like `error.description`, the SOAP fault or `500` response from the called system is not logged or propagated.  These items are nested in the error object here: `error.exception.errorMessage.typedValue.payload` and `error.exception.errorMessage.typedValue.attributes`.  Be aware that payload and attributes won't be accessable by selector if the content is `Binary`.  If the type is `Binary`, then you must read the error payload, `error.exception.errorMessage.typedValue`, as the correct MIME type if you want to access a specific field using a selector.
 
 This feature will automatically replace the `message` field for ***all errors*** with the previous error defined by the provided dataweave if one exists.  If the previous error does not exist or is empty, then it will leave the `message` field with its current value.  This feature does not append the previous error to the current one.  It simply replaces and is best used to propagate downstream errors up the API stack.
 
-The dataweave should resolve to a string but any type is allowed.  The default value below resolves to a called Mule API's error message, if the message is in `error.message` in the response body, which conforms to the API Error Handler responses.
+The dataweave should resolve to a string but any type is allowed.  You can override in any manner; the template custom error file gives a comprehensive example on how to convert nested errors to strings.
 
-```
-error.exception.errorMessage.payload.error.message default ''
-```
-
-**Set this field to an empty string if you do not want to propagate previous errors.**
+**Set this field to an empty string if you do not want to propagate previous errors.  This is the default value**
 
 ### Response Key Name for Payload
 This field allows you to customize the JSON key name where the error payload is set.  This defaults to `error`, which is shown in the examples.  This only supports changing the name of the top-level key; it does not change any other format.  If you want the error payload to be the top-level element in the response, then set this field to empty string.

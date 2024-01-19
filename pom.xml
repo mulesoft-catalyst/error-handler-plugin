@@ -30,20 +30,20 @@
 	</distributionManagement>
 
 	<dependencies>
-		<!--Needed to discover the 'xml-based' XmlExtensionLoader for smart connectors -->
+		<!--Needed to discover the 'xml-based' XmlExtensionLoader -->
 		<dependency>
 			<groupId>org.mule.runtime</groupId>
 			<artifactId>mule-module-extensions-xml-support</artifactId>
 			<version>${mule.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- DataWeave -->
+		<!-- EE Dependency: Required for DataWeave -->
 		<dependency>
 			<groupId>com.mulesoft.mule.runtime.modules</groupId>
 			<artifactId>mule-module-spring-config-ee</artifactId>
 			<version>${mule.version}</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency>		
 	</dependencies>
 
 	<build>
@@ -55,6 +55,20 @@
 				<version>${mule.extensions.maven.plugin.version}</version>
 				<extensions>true</extensions>
 			</plugin>
+			
+			<!-- MUnit: Definition is required even if MUnit is not used -->
+            <plugin>
+                <groupId>com.mulesoft.munit</groupId>
+                <artifactId>munit-extensions-maven-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<!-- Ensure using correct version for runtime.  This plugin may not have latest in its POM. -->
+						<groupId> org.mule.runtime</groupId>
+						<artifactId>mule-core</artifactId>
+						<version>${mule.version}</version>
+					</dependency>
+				</dependencies>
+            </plugin>
 		</plugins>
 	</build>
 
@@ -66,30 +80,11 @@
 			<layout>default</layout>
 		</repository>
 		<repository>
-			<id>mulesoft-snapshots</id>
-			<name>MuleSoft Snapshots Repository</name>
-			<url>https://repository.mulesoft.org/snapshots/</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
 			<id>anypoint-exchange-v3</id>
 			<name>Anypoint Exchange V3</name>
 			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>mulesoft-releases</id>
-			<name>MuleSoft Releases Repository</name>
-			<url>https://repository.mulesoft.org/releases/</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>releases-ee</id>
-			<name>Mule Release Repository</name>
-			<url>https://repository.mulesoft.org/nexus/content/repositories/releases-ee/</url>
-		</pluginRepository>
-	</pluginRepositories>
 
 </project>

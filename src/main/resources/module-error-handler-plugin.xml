@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module name="module-error-handler-plugin" category="SELECT"
+<module
+	name="module-error-handler-plugin"
+	category="SELECT"
 	doc:description="This module provides common error handling for APIs"
 	xmlns="http://www.mulesoft.org/schema/mule/module"
 	xmlns:mule="http://www.mulesoft.org/schema/mule/core"
@@ -13,100 +15,178 @@
            http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd  
            http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
-	<operation name="process-error" displayName="Process Error">
+	<operation
+		name="process-error"
+		displayName="Process Error">
 		<parameters>
 
 			<!-- Common Errors -->
-			<parameter name="useGeneratedError" type="boolean"
-				use="OPTIONAL" displayName="Use Generated Error Description Instead"
-				defaultValue="true" role="BEHAVIOUR" order="1" tab="Common Errors"></parameter>
-
-			<parameter name="badRequestError" type="string"
-				use="OPTIONAL" displayName="400 Bad Request"
-				defaultValue='There was an issue with your request' role="BEHAVIOUR"
+			<parameter
+				name="useGeneratedError"
+				type="boolean"
+				use="OPTIONAL"
+				displayName="Use Generated Error Description Instead"
+				defaultValue="true"
+				role="BEHAVIOUR"
+				order="1"
 				tab="Common Errors"></parameter>
 
-			<parameter name="unauthorizedError" type="string"
-				use="OPTIONAL" displayName="401 Unauthorized"
+			<parameter
+				name="badRequestError"
+				type="string"
+				use="OPTIONAL"
+				displayName="400 Bad Request"
+				defaultValue='There was an issue with your request'
+				role="BEHAVIOUR"
+				tab="Common Errors"></parameter>
+
+			<parameter
+				name="unauthorizedError"
+				type="string"
+				use="OPTIONAL"
+				displayName="401 Unauthorized"
 				defaultValue='Authentication was not provided or is invalid'
-				role="BEHAVIOUR" tab="Common Errors"></parameter>
-
-			<parameter name="forbiddenError" type="string"
-				use="OPTIONAL" displayName="403 Forbidden"
-				defaultValue='You are not allowed to make this request'
-				role="BEHAVIOUR" tab="Common Errors"></parameter>
-
-			<parameter name="notFoundError" type="string"
-				use="OPTIONAL" displayName="404 Not Found"
-				defaultValue="The resource is not found" role="BEHAVIOUR"
+				role="BEHAVIOUR"
 				tab="Common Errors"></parameter>
 
-			<parameter name="methodNotAllowedError" type="string"
-				use="OPTIONAL" displayName="405 Method Not Allowed"
+			<parameter
+				name="forbiddenError"
+				type="string"
+				use="OPTIONAL"
+				displayName="403 Forbidden"
+				defaultValue='You are not allowed to make this request'
+				role="BEHAVIOUR"
+				tab="Common Errors"></parameter>
+
+			<parameter
+				name="notFoundError"
+				type="string"
+				use="OPTIONAL"
+				displayName="404 Not Found"
+				defaultValue="The resource is not found"
+				role="BEHAVIOUR"
+				tab="Common Errors"></parameter>
+
+			<parameter
+				name="methodNotAllowedError"
+				type="string"
+				use="OPTIONAL"
+				displayName="405 Method Not Allowed"
 				defaultValue="The method is not allowed on the resource"
-				role="BEHAVIOUR" tab="Common Errors"></parameter>
+				role="BEHAVIOUR"
+				tab="Common Errors"></parameter>
 
-			<parameter name="notAcceptableError" type="string"
-				use="OPTIONAL" displayName="406 Not Acceptable"
+			<parameter
+				name="notAcceptableError"
+				type="string"
+				use="OPTIONAL"
+				displayName="406 Not Acceptable"
 				defaultValue='The API cannot provide the requested accepted response'
-				role="BEHAVIOUR" tab="Common Errors"></parameter>
+				role="BEHAVIOUR"
+				tab="Common Errors"></parameter>
 
-			<parameter name="timeoutError" type="string" use="OPTIONAL"
+			<parameter
+				name="timeoutError"
+				type="string"
+				use="OPTIONAL"
 				displayName="408 Request Timeout"
 				defaultValue='The request to the server has been timed-out'
-				role="BEHAVIOUR" tab="Common Errors"></parameter>
-
-			<parameter name="unsupportedMediaTypeError" type="string"
-				displayName="415 Unsupported Media Type" use="OPTIONAL"
-				defaultValue='Media type not supported' role="BEHAVIOUR"
+				role="BEHAVIOUR"
 				tab="Common Errors"></parameter>
 
-			<parameter name="tooManyRequestsError" type="string"
-				use="OPTIONAL" displayName="429 Too Many Requests"
+			<parameter
+				name="unsupportedMediaTypeError"
+				type="string"
+				displayName="415 Unsupported Media Type"
+				use="OPTIONAL"
+				defaultValue='Media type not supported'
+				role="BEHAVIOUR"
+				tab="Common Errors"></parameter>
+
+			<parameter
+				name="tooManyRequestsError"
+				type="string"
+				use="OPTIONAL"
+				displayName="429 Too Many Requests"
 				defaultValue='You have made too many requests to the server'
-				role="BEHAVIOUR" tab="Common Errors"></parameter>
-
-			<parameter name="expressionError" type="string"
-				use="OPTIONAL" displayName="500 Dataweave Expression Error"
-				defaultValue="Error with data transformation.  See log for details."
-				role="BEHAVIOUR" tab="Common Errors"></parameter>
-
-			<parameter name="serverError" type="string" use="OPTIONAL"
-				displayName="500 Internal Server Error (Default)"
-				defaultValue='There is a server issue' role="BEHAVIOUR"
+				role="BEHAVIOUR"
 				tab="Common Errors"></parameter>
 
-			<parameter name="notImplementedError" type="string"
-				displayName="501 Not Implemented" use="OPTIONAL"
-				defaultValue='The operation has not been implemented'
-				role="BEHAVIOUR" tab="Common Errors"></parameter>
+			<parameter
+				name="expressionError"
+				type="string"
+				use="OPTIONAL"
+				displayName="500 Dataweave Expression Error"
+				defaultValue="Error with data transformation.  See log for details."
+				role="BEHAVIOUR"
+				tab="Common Errors"></parameter>
 
-			<parameter name="connectivityError" type="string"
-				use="OPTIONAL" displayName="503 Bad Connectivity"
-				defaultValue="Service unavailable" role="BEHAVIOUR"
+			<parameter
+				name="serverError"
+				type="string"
+				use="OPTIONAL"
+				displayName="500 Internal Server Error (Default)"
+				defaultValue='There is a server issue'
+				role="BEHAVIOUR"
+				tab="Common Errors"></parameter>
+
+			<parameter
+				name="notImplementedError"
+				type="string"
+				displayName="501 Not Implemented"
+				use="OPTIONAL"
+				defaultValue='The operation has not been implemented'
+				role="BEHAVIOUR"
+				tab="Common Errors"></parameter>
+
+			<parameter
+				name="connectivityError"
+				type="string"
+				use="OPTIONAL"
+				displayName="503 Bad Connectivity"
+				defaultValue="Service unavailable"
+				role="BEHAVIOUR"
 				tab="Common Errors"></parameter>
 
 			<!-- Custom Errors -->
-			<parameter name="customErrors" type="CustomErrorsType"
-				displayName="Custom Errors" role="CONTENT" tab="Custom Errors"
-				summary="Provide the custom error definitions" defaultValue="#[{}]"></parameter>
+			<parameter
+				name="customErrors"
+				type="CustomErrorsType"
+				displayName="Custom Errors"
+				role="CONTENT"
+				tab="Custom Errors"
+				summary="Provide the custom error definitions"
+				defaultValue="#[{}]"></parameter>
 
 			<!-- Advanced -->
-			<parameter name="error" type="any"
-				displayName="Error Object" defaultValue="#[error]" role="PRIMARY"
-				order="1" tab="Advanced"></parameter>
+			<parameter
+				name="error"
+				type="any"
+				displayName="Error Object"
+				defaultValue="#[error]"
+				role="BEHAVIOUR"
+				order="1"
+				tab="Advanced"></parameter>
 
-			<parameter name="previousError" type="any" use="OPTIONAL"
+			<parameter
+				name="previousError"
+				type="any"
+				use="OPTIONAL"
 				displayName="Use Previous Error"
-				defaultValue="#[error.exception.errorMessage.payload.error.message default '']"
+				defaultValue="#['']"
 				summary="Script to generate the previous error message.  Usually pulled from the external system's response in the error object.  Set empty string to ignore previous errors."
-				role="BEHAVIOUR" tab="Advanced" />
-				
-			<parameter name="responseKey" type="any" use="OPTIONAL"
+				role="CONTENT"
+				tab="Advanced" />
+
+			<parameter
+				name="responseKey"
+				type="any"
+				use="OPTIONAL"
 				displayName="Response Key Name for Payload"
 				defaultValue="#['error']"
 				summary="The response key name to which to add the error payload.  Set empty string to set the payload as the root element."
-				role="BEHAVIOUR" tab="Advanced" />
+				role="BEHAVIOUR"
+				tab="Advanced" />
 
 		</parameters>
 
@@ -116,9 +196,11 @@
 					import getErrorTypeAsString from module_error_handler_plugin::common
 					---
 					getErrorTypeAsString(vars.error.errorType)]"
-				doc:name="Error Type" variableName="errorType" />
+				doc:name="Error Type"
+				variableName="errorType" />
 
-			<mule:logger level="DEBUG"
+			<mule:logger
+				level="DEBUG"
 				category="org.mulesoft.modules.errorhandler"
 				message='#[output aplication/java ---
 					"Error type: " ++ (vars.errorType default "") ++ "  Error Description: " ++ (vars.error.description default "")]' />
@@ -126,12 +208,15 @@
 			<!-- Load the default error definitions. -->
 			<mule:set-variable
 				value="#[${file::module_error_handler_plugin/defaultErrors.dwl}]"
-				doc:name="Default Errors" variableName="defaultErrors" />
+				doc:name="Default Errors"
+				variableName="defaultErrors" />
 
-			<mule:logger level="DEBUG"
+			<mule:logger
+				level="DEBUG"
 				message="Default Errors: #[vars.defaultErrors]"
 				category="org.mulesoft.modules.errorhandler"></mule:logger>
-			<mule:logger level="DEBUG"
+			<mule:logger
+				level="DEBUG"
 				message="Custom Errors: #[vars.customErrors]"
 				category="org.mulesoft.modules.errorhandler"></mule:logger>
 
@@ -174,8 +259,9 @@
 					</ee:set-attributes>
 				</ee:message>
 			</ee:transform>
-			
-			<mule:logger level="DEBUG"
+
+			<mule:logger
+				level="DEBUG"
 				category="org.mulesoft.modules.errorhandler"
 				message='#[output application/java --- "Error HTTP Status: " ++ attributes.httpStatus default "" ++ "  Error Response: " ++ write(payload, "application/json") default ""]' />
 		</body>
