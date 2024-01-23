@@ -1,10 +1,32 @@
+/**
+ * This provides custom error handling for the API Error Handler.
+ */
+ 
 %dw 2.0
 output application/json
-
 import * from module_error_handler_plugin::common
 
-// Previous error nested in the Mule error object, which conforms to the API Error Handler responses.
-var previousError = getPreviousErrorMessage(error)
+/**
+ * Previous error nested in the Mule error object.
+ * Provides the entire payload of the previous error as a String.
+ * Handles the main Mule Error formats to get nested errors:
+ * - Composite modules/scopes, like Scatter-Gather, Parallel-Foreach, Group Validation Module
+ * - Until-Successful
+ * - Standard Error, like Raise Error, Foreach, and most connectors and errors.
+ */
+var previousError = do {
+    var nested = [
+        error.childErrors..errorMessage.payload,        // Composite
+        error.suppressedErrors..errorMessage.payload,   // Until-Successful
+        error.exception.errorMessage.typedValue         // Standard Error: must go last because it has content if this is one of the other types of errors
+    ] dw::core::Arrays::firstWith !isEmpty($)
+    ---
+    if (nested is Array)
+        toString(nested map (toString($)) distinctBy $)
+    else
+        toString(nested)
+}
+
 ---
 {
     /*

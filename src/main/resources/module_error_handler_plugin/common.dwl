@@ -5,9 +5,6 @@
     This file must be in the ./resources/<module name> folder in order to be exported in the META-INF/mule-artifact/mule-artifact.json file.  This allows the functions to be used in the module as they are executed in the app's context (without the mule message context).
  */
 
-// Downstream error pulled off the Mule error object, which conforms to the API Error Handler responses.
-fun getPreviousErrorMessage(error) = error.exception.errorMessage.typedValue.error.message default ""
-
 /*
  *  Get the error type as a String
  */
@@ -29,12 +26,23 @@ fun getError(errorType, defaultErrors, customErrors = {}) = do {
     error
 }
 
-/*
- * Convert non-empty items to String.  If not a string, then writes in Java format.
- * If empty, then returns the default value provided
+/**
+ * Converts a value to a String representation.
+ * Binary is converted as-is to Strings since it must be read to get content.
+ * Primitives are directly converted to Strings.
+ * Complex objects, like Objects and Arrays, are converted to the String presentation of their Java form.
+ * 
+ * @p value to convert.
+ * @p def is the default value if the provided value is empty.
+ * @r String.  If empty, then returns the default value provided
  */
-fun toString(obj, def="") = obj match {
-    case item if (item is String and !isEmpty(item)) -> item
-    case item if !isEmpty(item) -> write(item, "application/java")
-    else -> def
+fun toString(value, def="") = do {
+    var safeValue = if (!isEmpty(value)) value else def default ""  // No nulls allowed
+    ---
+    typeOf(safeValue) match {
+        case "String" -> safeValue
+        case "Number" -> safeValue as String
+        case "Binary" -> read(safeValue, "text/plain")  
+        else -> write(safeValue, "application/java")
+    }
 }
