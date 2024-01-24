@@ -1,0 +1,95 @@
+[
+  {
+    "dslSource": "<http:request method=\"POST\" doc:name=\"POST Google\" doc:id=\"95ab7581-255a-4cb5-a799-e9ace92a0cf2\" config-ref=\"HTTP_Request_configuration\" url=\"https://www.google.com\">\r\n<http:body><![CDATA[\r\n#[null]\r\n]]></http:body>\r\n</http:request>",
+    "suppressedErrors": [
+      
+    ],
+    "childErrors": [
+      
+    ],
+    "errorType": {
+      "identifier": "METHOD_NOT_ALLOWED",
+      "parentErrorType": {
+        "identifier": "ANY",
+        "parentErrorType": null,
+        "namespace": "MULE"
+      },
+      "namespace": "HTTP"
+    },
+    "errorMessage": {
+      "inboundAttachmentNames": [
+        
+      ],
+      "exceptionPayload": null,
+      "inboundPropertyNames": [
+        
+      ],
+      "outboundAttachmentNames": [
+        
+      ],
+      "payload": "<!DOCTYPE html>\n<html lang=en>\n  <meta charset=utf-8>\n  <meta name=viewport content=\"initial-scale=1, minimum-scale=1, width=device-width\">\n  <title>Error 405 (Method Not Allowed)!!1</title>\n  <style>\n    *{margin:0;padding:0}html,code{font:15px/22px arial,sans-serif}html{background:#fff;color:#222;padding:15px}body{margin:7% auto 0;max-width:390px;min-height:180px;padding:30px 0 15px}* > body{background:url(//www.google.com/images/errors/robot.png) 100% 5px no-repeat;padding-right:205px}p{margin:11px 0 22px;overflow:hidden}ins{color:#777;text-decoration:none}a img{border:0}@media screen and (max-width:772px){body{background:none;margin-top:0;max-width:none;padding-right:0}}#logo{background:url(//www.google.com/images/branding/googlelogo/1x/googlelogo_color_150x54dp.png) no-repeat;margin-left:-5px}@media only screen and (min-resolution:192dpi){#logo{background:url(//www.google.com/images/branding/googlelogo/2x/googlelogo_color_150x54dp.png) no-repeat 0% 0%/100% 100%;-moz-border-image:url(//www.google.com/images/branding/googlelogo/2x/googlelogo_color_150x54dp.png) 0}}@media only screen and (-webkit-min-device-pixel-ratio:2){#logo{background:url(//www.google.com/images/branding/googlelogo/2x/googlelogo_color_150x54dp.png) no-repeat;-webkit-background-size:100% 100%}}#logo{display:inline-block;height:54px;width:150px}\n  </style>\n  <a href=//www.google.com/><span id=logo aria-label=Google></span></a>\n  <p><b>405.</b> <ins>That’s an error.</ins>\n  <p>The request method <code>POST</code> is inappropriate for the URL <code>/</code>.  <ins>That’s all we know.</ins>\n",
+      "outboundPropertyNames": [
+        
+      ],
+      "attributes": {
+        "headers": {
+          "allow": "GET, HEAD",
+          "date": "Fri, 19 Jan 2024 20:30:29 GMT",
+          "content-type": "text/html; charset=UTF-8",
+          "server": "gws",
+          "content-length": "1589",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "reasonPhrase": "Method Not Allowed",
+        "statusCode": 405
+      }
+    },
+    "cause": {
+      "localizedMessage": "HTTP POST on resource 'https://www.google.com' failed: method not allowed (405).",
+      "errorMessage": {
+        "inboundAttachmentNames": [
+          
+        ],
+        "exceptionPayload": null,
+        "inboundPropertyNames": [
+          
+        ],
+        "outboundAttachmentNames": [
+          
+        ],
+        "payload": "<!DOCTYPE html>\n<html lang=en>\n  <meta charset=utf-8>\n  <meta name=viewport content=\"initial-scale=1, minimum-scale=1, width=device-width\">\n  <title>Error 405 (Method Not Allowed)!!1</title>\n  <style>\n    *{margin:0;padding:0}html,code{font:15px/22px arial,sans-serif}html{background:#fff;color:#222;padding:15px}body{margin:7% auto 0;max-width:390px;min-height:180px;padding:30px 0 15px}* > body{background:url(//www.google.com/images/errors/robot.png) 100% 5px no-repeat;padding-right:205px}p{margin:11px 0 22px;overflow:hidden}ins{color:#777;text-decoration:none}a img{border:0}@media screen and (max-width:772px){body{background:none;margin-top:0;max-width:none;padding-right:0}}#logo{background:url(//www.google.com/images/branding/googlelogo/1x/googlelogo_color_150x54dp.png) no-repeat;margin-left:-5px}@media only screen and (min-resolution:192dpi){#logo{background:url(//www.google.com/images/branding/googlelogo/2x/googlelogo_color_150x54dp.png) no-repeat 0% 0%/100% 100%;-moz-border-image:url(//www.google.com/images/branding/googlelogo/2x/googlelogo_color_150x54dp.png) 0}}@media only screen and (-webkit-min-device-pixel-ratio:2){#logo{background:url(//www.google.com/images/branding/googlelogo/2x/googlelogo_color_150x54dp.png) no-repeat;-webkit-background-size:100% 100%}}#logo{display:inline-block;height:54px;width:150px}\n  </style>\n  <a href=//www.google.com/><span id=logo aria-label=Google></span></a>\n  <p><b>405.</b> <ins>That’s an error.</ins>\n  <p>The request method <code>POST</code> is inappropriate for the URL <code>/</code>.  <ins>That’s all we know.</ins>\n",
+        "outboundPropertyNames": [
+          
+        ],
+        "attributes": {
+          "headers": {
+            "allow": "GET, HEAD",
+            "date": "Fri, 19 Jan 2024 20:30:29 GMT",
+            "content-type": "text/html; charset=UTF-8",
+            "server": "gws",
+            "content-length": "1589",
+            "x-xss-protection": "0",
+            "x-frame-options": "SAMEORIGIN",
+            "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+          },
+          "reasonPhrase": "Method Not Allowed",
+          "statusCode": 405
+        }
+      },
+      "cause": null,
+      "type": "METHOD_NOT_ALLOWED",
+      "message": "HTTP POST on resource 'https://www.google.com' failed: method not allowed (405).",
+      "suppressed": [
+        
+      ],
+      "stackTrace": [
+        
+      ]
+    },
+    "description": "HTTP POST on resource 'https://www.google.com' failed: method not allowed (405).",
+    "detailedDescription": "HTTP POST on resource 'https://www.google.com' failed: method not allowed (405).",
+    "failingComponent": "api_requestError/processors/0 @ test-error-handler:api.xml:26 (POST Google)"
+  }
+]
