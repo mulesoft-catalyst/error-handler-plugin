@@ -469,19 +469,22 @@ The `build.sh` script executes maven commands on the module, including deploying
 
 It takes the parameters below.
 
-    1. Anypoint Org Id: the Anypoint business organization where to deploy the module.
-    2. Build option: the type of build to execute: `local`, `deploy`.
-        - `local`: builds locally (installs dependencies and module in local maven repository)
-        - `deploy`: deploys module to Exchange
+1. Build option:  the type of build to execute: [package, install, deploy].
+	- package: builds the package without installing
+	- install: builds locally (installs dependencies and module in local maven repository)
+	- deploy: deploys module to Exchange
+2. Maven Group Id: the Maven group id for the artifact. Can be Anypoint business organization to which to deploy the module.
+3. Repo ID: the ID of the Maven repository. Defaults to Exchange2 if not provided.
+4. Repo URL: the URL of the Maven repository. Defaults to Anypoint Exchange URL if not provided.
     
 **Syntax**
 ```
-./build.sh {Anypoint Org ID} {build option}
+./build.sh [build option] [Maven Group ID] [repo ID] [repo URL]
 ```
 
 **Example**
 ```
-./build.sh 43ae201-c97b-4665-9310-e3ac89ce1c28 deploy
+./build.sh deploy 43ae201-c97b-4665-9310-e3ac89ce1c28
 ```
 
 [mule-ee]: https://docs.mulesoft.com/mule-runtime/latest/maven-reference#configure-mulesoft-enterprise-repository
