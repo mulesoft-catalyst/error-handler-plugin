@@ -1,0 +1,395 @@
+{
+  "dslSource": "<apikit:router config-ref=\"api-config\"></apikit:router>",
+  "suppressedErrors": [
+    
+  ],
+  "errorType": {
+    "identifier": "MULTIPLE",
+    "parentErrorType": {
+      "identifier": "VALIDATION",
+      "parentErrorType": {
+        "identifier": "VALIDATION",
+        "parentErrorType": {
+          "identifier": "ANY",
+          "parentErrorType": null,
+          "namespace": "MULE"
+        },
+        "namespace": "MULE"
+      },
+      "namespace": "VALIDATION"
+    },
+    "namespace": "VALIDATION"
+  },
+  "childErrors": [
+    {
+      "dslSource": "<validation:is-true doc:name=\"Is true\" doc:id=\"e911a77a-52b5-443e-9aab-fa75934c9682\" config-ref=\"Validation_Config\" message=\"Muh Error 1!\"></validation:is-true>",
+      "suppressedErrors": [
+        
+      ],
+      "errorType": {
+        "identifier": "INVALID_BOOLEAN",
+        "parentErrorType": {
+          "identifier": "VALIDATION",
+          "parentErrorType": {
+            "identifier": "VALIDATION",
+            "parentErrorType": {
+              "identifier": "ANY",
+              "parentErrorType": null,
+              "namespace": "MULE"
+            },
+            "namespace": "MULE"
+          },
+          "namespace": "VALIDATION"
+        },
+        "namespace": "VALIDATION"
+      },
+      "childErrors": [
+        
+      ],
+      "errorMessage": {
+        "inboundAttachmentNames": [
+          
+        ],
+        "exceptionPayload": null,
+        "inboundPropertyNames": [
+          
+        ],
+        "outboundAttachmentNames": [
+          
+        ],
+        "payload": {
+          "errorType": "INVALID_BOOLEAN",
+          "message": "Muh Error 1!",
+          "error": true
+        },
+        "outboundPropertyNames": [
+          
+        ],
+        "attributes": null
+      },
+      "cause": {
+        "validationResult": {
+          "errorType": "INVALID_BOOLEAN",
+          "message": "Muh Error 1!",
+          "error": true
+        },
+        "localizedMessage": "Muh Error 1!",
+        "errorMessage": {
+          "inboundAttachmentNames": [
+            
+          ],
+          "exceptionPayload": null,
+          "inboundPropertyNames": [
+            
+          ],
+          "outboundAttachmentNames": [
+            
+          ],
+          "payload": {
+            "errorType": "INVALID_BOOLEAN",
+            "message": "Muh Error 1!",
+            "error": true
+          },
+          "outboundPropertyNames": [
+            
+          ],
+          "attributes": null
+        },
+        "cause": null,
+        "type": "INVALID_BOOLEAN",
+        "message": "Muh Error 1!",
+        "suppressed": [
+          
+        ],
+        "stackTrace": [
+          
+        ]
+      },
+      "description": "Muh Error 1!",
+      "detailedDescription": "Muh Error 1!",
+      "failingComponent": "get:\\validation:application\\json:api-config/processors/1/processors/0 @ test-error-handler:api.xml:70 (Is true)"
+    },
+    {
+      "dslSource": "<validation:is-true doc:name=\"Is true\" doc:id=\"f08c2e40-dcb9-41dc-a0db-ddb7b5ff0e8c\" config-ref=\"Validation_Config\" message=\"Muh Error 2!\"></validation:is-true>",
+      "suppressedErrors": [
+        
+      ],
+      "errorType": {
+        "identifier": "INVALID_BOOLEAN",
+        "parentErrorType": {
+          "identifier": "VALIDATION",
+          "parentErrorType": {
+            "identifier": "VALIDATION",
+            "parentErrorType": {
+              "identifier": "ANY",
+              "parentErrorType": null,
+              "namespace": "MULE"
+            },
+            "namespace": "MULE"
+          },
+          "namespace": "VALIDATION"
+        },
+        "namespace": "VALIDATION"
+      },
+      "childErrors": [
+        
+      ],
+      "errorMessage": {
+        "inboundAttachmentNames": [
+          
+        ],
+        "exceptionPayload": null,
+        "inboundPropertyNames": [
+          
+        ],
+        "outboundAttachmentNames": [
+          
+        ],
+        "payload": {
+          "errorType": "INVALID_BOOLEAN",
+          "message": "Muh Error 2!",
+          "error": true
+        },
+        "outboundPropertyNames": [
+          
+        ],
+        "attributes": null
+      },
+      "cause": {
+        "validationResult": {
+          "errorType": "INVALID_BOOLEAN",
+          "message": "Muh Error 2!",
+          "error": true
+        },
+        "localizedMessage": "Muh Error 2!",
+        "errorMessage": {
+          "inboundAttachmentNames": [
+            
+          ],
+          "exceptionPayload": null,
+          "inboundPropertyNames": [
+            
+          ],
+          "outboundAttachmentNames": [
+            
+          ],
+          "payload": {
+            "errorType": "INVALID_BOOLEAN",
+            "message": "Muh Error 2!",
+            "error": true
+          },
+          "outboundPropertyNames": [
+            
+          ],
+          "attributes": null
+        },
+        "cause": null,
+        "type": "INVALID_BOOLEAN",
+        "message": "Muh Error 2!",
+        "suppressed": [
+          
+        ],
+        "stackTrace": [
+          
+        ]
+      },
+      "description": "Muh Error 2!",
+      "detailedDescription": "Muh Error 2!",
+      "failingComponent": "get:\\validation:application\\json:api-config/processors/1/processors/1 @ test-error-handler:api.xml:71 (Is true)"
+    }
+  ],
+  "errorMessage": null,
+  "cause": {
+    "localizedMessage": "Muh Error 1!\nMuh Error 2!",
+    "cause": null,
+    "type": "MULTIPLE",
+    "message": "Muh Error 1!\nMuh Error 2!",
+    "suppressed": [
+      
+    ],
+    "stackTrace": [
+      
+    ],
+    "errors": [
+      {
+        "dslSource": "<validation:is-true doc:name=\"Is true\" doc:id=\"e911a77a-52b5-443e-9aab-fa75934c9682\" config-ref=\"Validation_Config\" message=\"Muh Error 1!\"></validation:is-true>",
+        "suppressedErrors": [
+          
+        ],
+        "errorType": {
+          "identifier": "INVALID_BOOLEAN",
+          "parentErrorType": {
+            "identifier": "VALIDATION",
+            "parentErrorType": {
+              "identifier": "VALIDATION",
+              "parentErrorType": {
+                "identifier": "ANY",
+                "parentErrorType": null,
+                "namespace": "MULE"
+              },
+              "namespace": "MULE"
+            },
+            "namespace": "VALIDATION"
+          },
+          "namespace": "VALIDATION"
+        },
+        "childErrors": [
+          
+        ],
+        "errorMessage": {
+          "inboundAttachmentNames": [
+            
+          ],
+          "exceptionPayload": null,
+          "inboundPropertyNames": [
+            
+          ],
+          "outboundAttachmentNames": [
+            
+          ],
+          "payload": {
+            "errorType": "INVALID_BOOLEAN",
+            "message": "Muh Error 1!",
+            "error": true
+          },
+          "outboundPropertyNames": [
+            
+          ],
+          "attributes": null
+        },
+        "cause": {
+          "validationResult": {
+            "errorType": "INVALID_BOOLEAN",
+            "message": "Muh Error 1!",
+            "error": true
+          },
+          "localizedMessage": "Muh Error 1!",
+          "errorMessage": {
+            "inboundAttachmentNames": [
+              
+            ],
+            "exceptionPayload": null,
+            "inboundPropertyNames": [
+              
+            ],
+            "outboundAttachmentNames": [
+              
+            ],
+            "payload": {
+              "errorType": "INVALID_BOOLEAN",
+              "message": "Muh Error 1!",
+              "error": true
+            },
+            "outboundPropertyNames": [
+              
+            ],
+            "attributes": null
+          },
+          "cause": null,
+          "type": "INVALID_BOOLEAN",
+          "message": "Muh Error 1!",
+          "suppressed": [
+            
+          ],
+          "stackTrace": [
+            
+          ]
+        },
+        "description": "Muh Error 1!",
+        "detailedDescription": "Muh Error 1!",
+        "failingComponent": "get:\\validation:application\\json:api-config/processors/1/processors/0 @ test-error-handler:api.xml:70 (Is true)"
+      },
+      {
+        "dslSource": "<validation:is-true doc:name=\"Is true\" doc:id=\"f08c2e40-dcb9-41dc-a0db-ddb7b5ff0e8c\" config-ref=\"Validation_Config\" message=\"Muh Error 2!\"></validation:is-true>",
+        "suppressedErrors": [
+          
+        ],
+        "errorType": {
+          "identifier": "INVALID_BOOLEAN",
+          "parentErrorType": {
+            "identifier": "VALIDATION",
+            "parentErrorType": {
+              "identifier": "VALIDATION",
+              "parentErrorType": {
+                "identifier": "ANY",
+                "parentErrorType": null,
+                "namespace": "MULE"
+              },
+              "namespace": "MULE"
+            },
+            "namespace": "VALIDATION"
+          },
+          "namespace": "VALIDATION"
+        },
+        "childErrors": [
+          
+        ],
+        "errorMessage": {
+          "inboundAttachmentNames": [
+            
+          ],
+          "exceptionPayload": null,
+          "inboundPropertyNames": [
+            
+          ],
+          "outboundAttachmentNames": [
+            
+          ],
+          "payload": {
+            "errorType": "INVALID_BOOLEAN",
+            "message": "Muh Error 2!",
+            "error": true
+          },
+          "outboundPropertyNames": [
+            
+          ],
+          "attributes": null
+        },
+        "cause": {
+          "validationResult": {
+            "errorType": "INVALID_BOOLEAN",
+            "message": "Muh Error 2!",
+            "error": true
+          },
+          "localizedMessage": "Muh Error 2!",
+          "errorMessage": {
+            "inboundAttachmentNames": [
+              
+            ],
+            "exceptionPayload": null,
+            "inboundPropertyNames": [
+              
+            ],
+            "outboundAttachmentNames": [
+              
+            ],
+            "payload": {
+              "errorType": "INVALID_BOOLEAN",
+              "message": "Muh Error 2!",
+              "error": true
+            },
+            "outboundPropertyNames": [
+              
+            ],
+            "attributes": null
+          },
+          "cause": null,
+          "type": "INVALID_BOOLEAN",
+          "message": "Muh Error 2!",
+          "suppressed": [
+            
+          ],
+          "stackTrace": [
+            
+          ]
+        },
+        "description": "Muh Error 2!",
+        "detailedDescription": "Muh Error 2!",
+        "failingComponent": "get:\\validation:application\\json:api-config/processors/1/processors/1 @ test-error-handler:api.xml:71 (Is true)"
+      }
+    ]
+  },
+  "description": "Muh Error 1!\nMuh Error 2!",
+  "detailedDescription": "Muh Error 1!\nMuh Error 2!",
+  "failingComponent": "api-main/processors/0 @ test-error-handler:api.xml:22"
+}

@@ -1,0 +1,88 @@
+{
+  "dslSource": "<validation:is-true doc:name=\"Is true\" doc:id=\"e911a77a-52b5-443e-9aab-fa75934c9682\" config-ref=\"Validation_Config\" message=\"Muh Error!\"></validation:is-true>",
+  "suppressedErrors": [
+    
+  ],
+  "childErrors": [
+    
+  ],
+  "errorType": {
+    "identifier": "INVALID_BOOLEAN",
+    "parentErrorType": {
+      "identifier": "VALIDATION",
+      "parentErrorType": {
+        "identifier": "VALIDATION",
+        "parentErrorType": {
+          "identifier": "ANY",
+          "parentErrorType": null,
+          "namespace": "MULE"
+        },
+        "namespace": "MULE"
+      },
+      "namespace": "VALIDATION"
+    },
+    "namespace": "VALIDATION"
+  },
+  "errorMessage": {
+    "inboundAttachmentNames": [
+      
+    ],
+    "exceptionPayload": null,
+    "inboundPropertyNames": [
+      
+    ],
+    "outboundAttachmentNames": [
+      
+    ],
+    "payload": {
+      "errorType": "INVALID_BOOLEAN",
+      "message": "Muh Error!",
+      "error": true
+    },
+    "outboundPropertyNames": [
+      
+    ],
+    "attributes": null
+  },
+  "cause": {
+    "validationResult": {
+      "errorType": "INVALID_BOOLEAN",
+      "message": "Muh Error!",
+      "error": true
+    },
+    "localizedMessage": "Muh Error!",
+    "errorMessage": {
+      "inboundAttachmentNames": [
+        
+      ],
+      "exceptionPayload": null,
+      "inboundPropertyNames": [
+        
+      ],
+      "outboundAttachmentNames": [
+        
+      ],
+      "payload": {
+        "errorType": "INVALID_BOOLEAN",
+        "message": "Muh Error!",
+        "error": true
+      },
+      "outboundPropertyNames": [
+        
+      ],
+      "attributes": null
+    },
+    "cause": null,
+    "type": "INVALID_BOOLEAN",
+    "message": "Muh Error!",
+    "suppressed": [
+      
+    ],
+    "stackTrace": [
+      
+    ]
+  },
+  "description": "Muh Error!",
+  "detailedDescription": "Muh Error!",
+  "failingComponent": "get:\\validation:application\\json:api-config/processors/1 @ test-error-handler:api.xml:69 (Is true)"
+}

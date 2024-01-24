@@ -14,6 +14,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<!-- Overridden by build.sh -->
+		<repo.id>Exchange2</repo.id>
+		<repo.url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${project.groupId}/maven</repo.url>
+
 		<!-- XML SDK properties -->
 		<mule.version>4.4.0</mule.version>
 		<mule.extensions.maven.plugin.version>1.5.1</mule.extensions.maven.plugin.version>
@@ -22,9 +26,9 @@
 
 	<distributionManagement>
 		<repository>
-			<id>Exchange2</id>
-			<name>Mule Repo</name>
-			<url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${project.groupId}/maven</url>
+			<id>${repo.id}</id>
+			<name>Deployment Repo</name>
+			<url>${repo.url}</url>
 			<layout>default</layout>
 		</repository>
 	</distributionManagement>
