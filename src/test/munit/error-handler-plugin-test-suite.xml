@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:module-error-handler-plugin="http://www.mulesoft.org/schema/mule/module-error-handler-plugin" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munitools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:mule="http://www.mulesoft.org/schema/mule/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/module-error-handler-plugin http://www.mulesoft.org/schema/mule/module-error-handler-plugin/current/mule-module-error-handler-plugin.xsd
+                        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+                        http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+                        http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+
+	<munit:config name="error-handler-plugin-test-suite.xml" />
+	<munit:test name="unknown-test" doc:id="18e5e985-2399-4086-aa20-fb58ba733f8b">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "APP", "identifier": "CUSTOM"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="87ff5816-484d-4d3e-b04b-8af3765a6597" message="Payload doesn't match">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 500,
+			"reason": "Internal Server Error",
+			"message": "There is a server issue"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="fd7327f9-9bc2-4a2c-bba0-b5c33d43205a">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 500,
+		"errorLog": "There is a server issue"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-bad-request-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "BAD_REQUEST"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 400,
+			"reason": "Bad Request",
+			"message": "There was an issue with your request"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 400,
+		"errorLog": "There was an issue with your request"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="apikit-bad-request-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "APIKIT", "identifier": "BAD_REQUEST"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 400,
+			"reason": "Bad Request",
+			"message": "There was an issue with your request"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 400,
+		"errorLog": "There was an issue with your request"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-parsing-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "PARSING"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 400,
+			"reason": "Bad Request",
+			"message": "There was an issue with your request"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 400,
+		"errorLog": "There was an issue with your request"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-client-security-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "CLIENT_SECURITY"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 401,
+			"reason": "Unauthorized",
+			"message": "Authentication was not provided or is invalid"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 401,
+		"errorLog": "Authentication was not provided or is invalid"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-security-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "SECURITY"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 401,
+			"reason": "Unauthorized",
+			"message": "Authentication was not provided or is invalid"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 401,
+		"errorLog": "Authentication was not provided or is invalid"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="mule-security-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "MULE", "identifier": "SECURITY"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 401,
+			"reason": "Unauthorized",
+			"message": "Authentication was not provided or is invalid"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 401,
+		"errorLog": "Authentication was not provided or is invalid"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-unahthorized-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "UNAUTHORIZED"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 401,
+			"reason": "Unauthorized",
+			"message": "Authentication was not provided or is invalid"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 401,
+		"errorLog": "Authentication was not provided or is invalid"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-forbidden-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "FORBIDDEN"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 403,
+			"reason": "Forbidden",
+			"message": "You are not allowed to make this request"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 403,
+		"errorLog": "You are not allowed to make this request"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-not-found-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "NOT_FOUND"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 404,
+			"reason": "Not Found",
+			"message": "The resource is not found"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 404,
+		"errorLog": "The resource is not found"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="apikit-not-found-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "APIKIT", "identifier": "NOT_FOUND"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 404,
+			"reason": "Not Found",
+			"message": "The resource is not found"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 404,
+		"errorLog": "The resource is not found"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="apikit-method-not-allowed-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "APIKIT", "identifier": "METHOD_NOT_ALLOWED"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 405,
+			"reason": "Method Not Allowed",
+			"message": "The method is not allowed on the resource"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 405,
+		"errorLog": "The method is not allowed on the resource"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-method-not-allowed-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "METHOD_NOT_ALLOWED"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 405,
+			"reason": "Method Not Allowed",
+			"message": "The method is not allowed on the resource"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 405,
+		"errorLog": "The method is not allowed on the resource"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="apikit-not-acceptable-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "APIKIT", "identifier": "NOT_ACCEPTABLE"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 406,
+			"reason": "Not Acceptable",
+			"message": "The API cannot provide the requested accepted response"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 406,
+		"errorLog": "The API cannot provide the requested accepted response"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-not-acceptable-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "NOT_ACCEPTABLE"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 406,
+			"reason": "Not Acceptable",
+			"message": "The API cannot provide the requested accepted response"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 406,
+		"errorLog": "The API cannot provide the requested accepted response"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-timeout-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "TIMEOUT"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 408,
+			"reason": "Request Timeout",
+			"message": "The request to the server has been timed-out"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 408,
+		"errorLog": "The request to the server has been timed-out"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-unsupported-media-type-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "UNSUPPORTED_MEDIA_TYPE"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 415,
+			"reason": "Unsupported Media Type",
+			"message": "Media type not supported"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 415,
+		"errorLog": "Media type not supported"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="apikit-unsupported-media-type-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "APIKIT", "identifier": "UNSUPPORTED_MEDIA_TYPE"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 415,
+			"reason": "Unsupported Media Type",
+			"message": "Media type not supported"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 415,
+		"errorLog": "Media type not supported"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-too-many-requests-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "TOO_MANY_REQUESTS"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 429,
+			"reason": "Too Many Requests",
+			"message": "You have made too many requests to the server"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 429,
+		"errorLog": "You have made too many requests to the server"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="mule-expression-test" doc:id="18e5e985-2399-4086-aa20-fb58ba733f8b">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "MULE", "identifier": "EXPRESSION"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="87ff5816-484d-4d3e-b04b-8af3765a6597" message="Payload doesn't match">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 500,
+			"reason": "Internal Server Error",
+			"message": "Error with data transformation.  See log for details."
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="fd7327f9-9bc2-4a2c-bba0-b5c33d43205a">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 500,
+		"errorLog": "Error with data transformation.  See log for details."
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="apikit-not-implemented-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "APIKIT", "identifier": "NOT_IMPLEMENTED"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 501,
+			"reason": "Not Implemented",
+			"message": "The operation has not been implemented"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 501,
+		"errorLog": "The operation has not been implemented"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-not-implemented-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "NOT_IMPLEMENTED"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 501,
+			"reason": "Not Implemented",
+			"message": "The operation has not been implemented"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 501,
+		"errorLog": "The operation has not been implemented"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-bad-gateway-test" doc:id="b49d62a6-0704-4582-9f2d-a302bd9c6ca3">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "BAD_GATEWAY"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="afaa2099-dde7-4894-a9c1-4ca75d5c6406">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 502,
+			"reason": "Bad Gateway",
+			"message": "Service unavailable"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="09d98fce-3f62-4a2b-9b6d-67aea62ffc34">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 502,
+		"errorLog": "Service unavailable"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-connectivity-test" doc:id="e0a1eac7-9b97-4b6b-b460-34b355ac9d8d">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "CONNECTIVITY"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="65f5f2bb-79c0-4fbc-8ef3-0e368518d643">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 503,
+			"reason": "Service Unavailable",
+			"message": "Service unavailable"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="127f04b3-bf66-46e3-83b9-22803357a0cc">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 503,
+		"errorLog": "Service unavailable"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-retry-exausted-test" doc:id="e0a1eac7-9b97-4b6b-b460-34b355ac9d8d">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "RETRY_EXHAUSTED"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="65f5f2bb-79c0-4fbc-8ef3-0e368518d643">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 503,
+			"reason": "Service Unavailable",
+			"message": "Service unavailable"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="127f04b3-bf66-46e3-83b9-22803357a0cc">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 503,
+		"errorLog": "Service unavailable"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="http-service-unavailable-test" doc:id="e0a1eac7-9b97-4b6b-b460-34b355ac9d8d">
+		<munit:execution>
+			<module-error-handler-plugin:process-error error='#[{"errorType": {"namespace": "HTTP", "identifier": "SERVICE_UNAVAILABLE"}}]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload" doc:id="65f5f2bb-79c0-4fbc-8ef3-0e368518d643">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo(
+	{
+		"error": {
+			"code": 503,
+			"reason": "Service Unavailable",
+			"message": "Service unavailable"
+		}
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert attributes" doc:id="127f04b3-bf66-46e3-83b9-22803357a0cc">
+				<munit-tools:that>
+					<![CDATA[#[import * from dw::test::Asserts 
+ ---
+attributes must equalTo(
+	{
+		"httpStatus": 503,
+		"errorLog": "Service unavailable"
+	}
+)]]]>
+				</munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

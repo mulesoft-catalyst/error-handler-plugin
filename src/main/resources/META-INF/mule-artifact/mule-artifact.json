@@ -1,0 +1,29 @@
+{
+  "extensionModelLoaderDescriptor": {
+    "id": "xml-based",
+    "attributes": {
+      "validate-xml": false,
+      "resources-paths": [
+        "module_error_handler_plugin/defaultErrors.dwl",
+        "module_error_handler_plugin/common.dwl"
+      ],
+      "resource-xml": "module-error-handler-plugin.xml"
+    }
+  },
+  "name": "module-error-handler-plugin",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedResources": [
+        "module_error_handler_plugin/defaultErrors.dwl",
+        "module_error_handler_plugin/common.dwl"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "minMuleVersion": "4.5.0"
+}
