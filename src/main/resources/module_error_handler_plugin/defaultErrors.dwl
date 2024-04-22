@@ -111,7 +111,7 @@ fun getMessage(message) =
       "code":500,
       "reason": "Internal Server Error",
 	  // Don't provide default error description for expression errors as that is a potential security issue.
-      "message":vars.expressionError default ""
+      "message": vars.expressionError default ""
 	},
 	"APIKIT:NOT_IMPLEMENTED": {
 		"code": 501,

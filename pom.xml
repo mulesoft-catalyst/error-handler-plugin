@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ORG_ID_TOKEN</groupId>
 	<artifactId>api-error-handler</artifactId>
-	<version>6.2.0</version>
+	<version>6.3.0</version>
 	<packaging>mule-extension</packaging>
 
 	<name>API Error Handler</name>
@@ -19,9 +21,19 @@
 		<repo.url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${project.groupId}/maven</repo.url>
 
 		<!-- XML SDK properties -->
-		<mule.version>4.4.0</mule.version>
-		<mule.extensions.maven.plugin.version>1.5.1</mule.extensions.maven.plugin.version>
-		<app.runtime>4.4.0</app.runtime>
+		<mule.version>4.6.2</mule.version>
+		<mule.maven.plugin.version>4.1.1</mule.maven.plugin.version>
+		<mule.extensions.maven.plugin.version>1.6.0-rc1</mule.extensions.maven.plugin.version>
+		<munit.extensions.maven.plugin.version>1.2.0</munit.extensions.maven.plugin.version>
+		<mule.module.extensions.xml.support.version>4.6.0-rc1</mule.module.extensions.xml.support.version>
+		<mtf.tools.version>1.2.0</mtf.tools.version>
+		<munit.version>3.1.0</munit.version>
+		<assertions.version>1.2.1</assertions.version>
+
+		<!-- Remove when a new parent version with MTF is available -->
+		<munit.input.directory>src/test/munit</munit.input.directory>
+		<munit.output.directory>${basedir}/target/test-mule/munit</munit.output.directory>
+		<maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>
 	</properties>
 
 	<distributionManagement>
@@ -38,7 +50,7 @@
 		<dependency>
 			<groupId>org.mule.runtime</groupId>
 			<artifactId>mule-module-extensions-xml-support</artifactId>
-			<version>${mule.version}</version>
+			<version>${mule.module.extensions.xml.support.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- EE Dependency: Required for DataWeave -->
@@ -47,11 +59,60 @@
 			<artifactId>mule-module-spring-config-ee</artifactId>
 			<version>${mule.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.munit</groupId>
+			<artifactId>mtf-tools</artifactId>
+			<version>${mtf.tools.version}</version>
+			<classifier>mule-plugin</classifier>
+			<scope>test</scope>
 		</dependency>		
+		<dependency>
+			<groupId>com.mulesoft.munit</groupId>
+			<artifactId>munit-runner</artifactId>
+			<version>${munit.version}</version>
+			<classifier>mule-plugin</classifier>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.munit</groupId>
+			<artifactId>munit-tools</artifactId>
+			<version>${munit.version}</version>
+			<classifier>mule-plugin</classifier>
+			<scope>test</scope>
+		</dependency>		
+		<dependency>
+			<groupId>org.mule.weave</groupId>
+			<artifactId>assertions</artifactId>
+			<version>${assertions.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${maven.resources.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>copy-munit-resources</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${munit.output.directory}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${munit.input.directory}</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<!-- Build plugin for XML SDK extension -->
 				<groupId>org.mule.runtime.plugins</groupId>
@@ -59,20 +120,34 @@
 				<version>${mule.extensions.maven.plugin.version}</version>
 				<extensions>true</extensions>
 			</plugin>
-			
 			<!-- MUnit: Definition is required even if MUnit is not used -->
-            <plugin>
-                <groupId>com.mulesoft.munit</groupId>
-                <artifactId>munit-extensions-maven-plugin</artifactId>
-				<dependencies>
-					<dependency>
-						<!-- Ensure using correct version for runtime.  This plugin may not have latest in its POM. -->
-						<groupId> org.mule.runtime</groupId>
-						<artifactId>mule-core</artifactId>
-						<version>${mule.version}</version>
-					</dependency>
-				</dependencies>
-            </plugin>
+			<plugin>
+				<groupId>com.mulesoft.munit.tools</groupId>
+				<artifactId>munit-maven-plugin</artifactId>
+				<version>${munit.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>com.mulesoft.munit</groupId>
+				<artifactId>munit-extensions-maven-plugin</artifactId>
+				<version>${munit.extensions.maven.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>exec-munit-tests</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<runtimeConfiguration>
+						<discoverRuntimes>
+							<minMuleVersion>${minVersion}</minMuleVersion>
+							<product>EE</product>
+						</discoverRuntimes>
+					</runtimeConfiguration>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
