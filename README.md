@@ -51,8 +51,11 @@ The error messages that are used by this module are described below.  The module
 - **Error Object Description**: the error message in the error object's description.  This is used for the Error Message in Common Errors or Custom Errors by default.  However, those can be customized to use something else instead.
 
 ## Compatibility
+### General
+- **`Java 17`: requires minimum Mule version `4.6.0`**
+- **`Java 9/11`: requires minimum Mule version `4.4.0`**
 
-- **Requires minimum Mule version: 4.3.0**
+### Version `6.0.0` 
 - **The XML component namespace changed due to internal requirements so previous versions of this should be deleted from an app before using this version.**
 - **The API response format has breaking changes.**  While the response format has changed from versions previous to `6.0.0`, which breaks the API contract, you can create the same response format by transforming this module's response to the old format, if that is desired.
 
@@ -65,7 +68,8 @@ This module may run on a runtime previous to the minimum listed, but it has not 
 | ----------- | --------------- |
 | 4.0.0       | 4.2.0           |
 | 5.0.0       | 4.3.0           |
-| 6.0.0       | 4.4.0           | 
+| 6.0.0 - 6.2.0 | 4.4.0           |
+| 6.3.0       | 4.6.0           |
 
 ### Changes from versions previous to 6.0.0
 
