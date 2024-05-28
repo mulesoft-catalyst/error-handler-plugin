@@ -4,7 +4,7 @@
 
 	<groupId>ORG_ID_TOKEN</groupId>
 	<artifactId>api-error-handler</artifactId>
-	<version>6.2.0</version>
+	<version>6.3.0</version>
 	<packaging>mule-extension</packaging>
 
 	<name>API Error Handler</name>
@@ -19,9 +19,9 @@
 		<repo.url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${project.groupId}/maven</repo.url>
 
 		<!-- XML SDK properties -->
-		<mule.version>4.4.0</mule.version>
-		<mule.extensions.maven.plugin.version>1.5.1</mule.extensions.maven.plugin.version>
-		<app.runtime>4.4.0</app.runtime>
+		<mule.version>4.6.0</mule.version>
+		<mule.extensions.maven.plugin.version>1.6.1</mule.extensions.maven.plugin.version>
+		<app.runtime>4.6.0</app.runtime>
 	</properties>
 
 	<distributionManagement>
